@@ -1,0 +1,20 @@
+<div *ngFor="let platform of rblData | keyvalue">
+  <h1>{{platform.key}}</h1>
+
+  <p-table [value]="platform.value">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Linie</th>
+        <th>Ziel</th>
+        <th>Minuten</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-departure>
+      <tr>
+        <td>{{departure.line}}</td>
+        <td>{{departure.towards}}</td>
+        <td>{{departure.time}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
