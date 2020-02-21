@@ -28,10 +28,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 # TODOs
 
-  * Provide endpoint for platform information for a station id
-  * Periodic update
-  * Barrier-free vehicles
   * Styling
-  * Provide endpoint for station list with coordinates and corresponding station ids
-  * Search for stations
-  * Show stations close to the current location
