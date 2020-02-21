@@ -9,9 +9,9 @@ import {StationDetails} from './station-details';
   providedIn: 'root'
 })
 export class RblService {
-  readonly stationsUrl = 'https://rueckgr.at/wienerlinien_dev/map/stations.php';
-  readonly stationDetailsUrl = 'https://rueckgr.at/wienerlinien_dev/map/platforms.php?id=';
-  readonly departuresUrl = 'https://rueckgr.at/wienerlinien_dev/map/rbls.php?ids=';
+  readonly stationsUrl = 'https://rueckgr.at/wienerlinien/map/stations.php';
+  readonly stationDetailsUrl = 'https://rueckgr.at/wienerlinien/map/platforms.php?id=';
+  readonly departuresUrl = 'https://rueckgr.at/wienerlinien/map/rbls.php?ids=';
 
   constructor(private http: HttpClient) { }
 
