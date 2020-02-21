@@ -34,7 +34,7 @@ export class MonitorComponent implements OnInit {
     });
   }
 
-  private updateMonitor(): void {
+  updateMonitor(): void {
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
