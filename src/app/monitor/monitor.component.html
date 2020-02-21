@@ -11,9 +11,9 @@
       <p-table [value]="rblData[platform.rbl]">
         <ng-template pTemplate="header">
           <tr>
-            <th>Linie</th>
-            <th>Ziel</th>
-            <th>Minuten</th>
+            <th style="width: 15%">Linie</th>
+            <th style="width: 70%">Ziel</th>
+            <th style="width: 15%">Minuten</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-departure>
@@ -23,7 +23,7 @@
             <td>
               {{departure.time}}
               <span *ngIf="departure.barrier_free">
-                (barrierefrei)
+                ♿
               </span>
             </td>
           </tr>
