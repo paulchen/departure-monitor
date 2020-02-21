@@ -43,6 +43,7 @@ export class SearchComponent implements OnInit {
   }
 
   search(event: any) {
+    // TODO sort by number of lines
     this.results = this.stations.filter(station => station.name.toLowerCase().indexOf(event.query.toLowerCase()) !== -1);
   }
 

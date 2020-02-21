@@ -1,3 +1,5 @@
+<h1>Abfahrtsmonitor</h1>
+
 <app-search *ngIf="station == null" (selected)="stationSelected($event)"></app-search>
 
 <app-monitor *ngIf="station != null" [station]="station" (selectStation)="doReset()"></app-monitor>

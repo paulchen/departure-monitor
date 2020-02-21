@@ -1,3 +1,5 @@
+Haltestelle:
+
 <p-autoComplete [(ngModel)]="selectedStation" [suggestions]="results" (completeMethod)="search($event)" field="name" [forceSelection]="true" (onSelect)="showStation($event)"></p-autoComplete>
 
 <p-button label="Aktuelle Position" (onClick)="useGeolocation()"></p-button>

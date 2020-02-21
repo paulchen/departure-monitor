@@ -14,8 +14,8 @@ export class MonitorComponent implements OnInit {
   @Input() station: Station;
   @Output() selectStation = new EventEmitter<Station>();
 
-  private stationDetails: StationDetails;
-  private rblData: { [rbl: string]: Departure[] } = {};
+  stationDetails: StationDetails;
+  rblData: { [rbl: string]: Departure[] } = {};
 
   constructor(private rblService: RblService) { }
 

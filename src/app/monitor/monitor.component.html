@@ -1,11 +1,11 @@
 <div *ngIf="stationDetails != null">
-  <h1>{{stationDetails.name}}</h1>
+  <h2>{{stationDetails.name}}</h2>
   <p-button label="Andere Haltestelle" (onClick)="doReset()"></p-button>
 
   <div *ngFor="let platform of stationDetails.platforms">
-    <h2 *ngIf="platform.showLines">{{platform.line_names.join(', ')}}</h2>
+    <h3 *ngIf="platform.showLines">{{platform.line_names.join(', ')}}</h3>
 
-    <h3>Bahnsteig {{platform.platform}}</h3>
+    <h4>Bahnsteig {{platform.platform}}</h4>
 
     <div *ngIf="rblData.hasOwnProperty(platform.rbl);else no_data">
       <p-table [value]="rblData[platform.rbl]">
@@ -20,7 +20,12 @@
           <tr>
             <td>{{departure.line}}</td>
             <td>{{departure.towards}}</td>
-            <td>{{departure.time}}</td>
+            <td>
+              {{departure.time}}
+              <span *ngIf="departure.barrier_free">
+                (barrierefrei)
+              </span>
+            </td>
           </tr>
         </ng-template>
       </p-table>
