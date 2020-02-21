@@ -1,5 +1,7 @@
 <div *ngIf="stationDetails != null">
   <h2>{{stationDetails.name}}</h2>
+  <p-button label="Aktualisieren" (onClick)="updateMonitor()"></p-button>
+  &nbsp;
   <p-button label="Andere Haltestelle" (onClick)="doReset()"></p-button>
 
   <div *ngFor="let platform of stationDetails.platforms">
