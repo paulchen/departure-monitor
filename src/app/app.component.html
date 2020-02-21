@@ -1,1 +1,3 @@
-<app-monitor></app-monitor>
+<app-search *ngIf="station == null" (selected)="stationSelected($event)"></app-search>
+
+<app-monitor *ngIf="station != null" [station]="station" (selectStation)="doReset()"></app-monitor>

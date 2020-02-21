@@ -1,20 +1,33 @@
-<div *ngFor="let platform of rblData | keyvalue">
-  <h1>{{platform.key}}</h1>
+<div *ngIf="stationDetails != null">
+  <h1>{{stationDetails.name}}</h1>
+  <p-button label="Andere Haltestelle" (onClick)="doReset()"></p-button>
 
-  <p-table [value]="platform.value">
-    <ng-template pTemplate="header">
-      <tr>
-        <th>Linie</th>
-        <th>Ziel</th>
-        <th>Minuten</th>
-      </tr>
+  <div *ngFor="let platform of stationDetails.platforms">
+    <h2 *ngIf="platform.showLines">{{platform.line_names.join(', ')}}</h2>
+
+    <h3>Bahnsteig {{platform.platform}}</h3>
+
+    <div *ngIf="rblData.hasOwnProperty(platform.rbl);else no_data">
+      <p-table [value]="rblData[platform.rbl]">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Linie</th>
+            <th>Ziel</th>
+            <th>Minuten</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-departure>
+          <tr>
+            <td>{{departure.line}}</td>
+            <td>{{departure.towards}}</td>
+            <td>{{departure.time}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <ng-template #no_data>
+      Keine Daten vorhanden.
     </ng-template>
-    <ng-template pTemplate="body" let-departure>
-      <tr>
-        <td>{{departure.line}}</td>
-        <td>{{departure.towards}}</td>
-        <td>{{departure.time}}</td>
-      </tr>
-    </ng-template>
-  </p-table>
+  </div>
 </div>
