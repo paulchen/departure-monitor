@@ -23,7 +23,8 @@ export class MonitorComponent implements OnInit {
     this.rblService.getStationDetails(this.station).subscribe(stationDetails => {
       let previousPlatform: Platform;
       stationDetails.platforms.forEach(currentPlatform => {
-        currentPlatform.showLines = !previousPlatform || JSON.stringify(previousPlatform.line_names) !== JSON.stringify(currentPlatform.line_names);
+        currentPlatform.showLines = !previousPlatform ||
+          JSON.stringify(previousPlatform.line_names) !== JSON.stringify(currentPlatform.line_names);
         previousPlatform = currentPlatform;
       });
 
