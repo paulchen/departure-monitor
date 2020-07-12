@@ -71,6 +71,10 @@ export class MonitorComponent implements OnInit {
       clearTimeout(this.timeout);
     }
 
+    if (!this.stationDetails) {
+      return;
+    }
+
     const rbls = this.stationDetails.platforms.map(platform => platform.rbl);
     this.loading = true;
     this.rblService.getDepartureData(rbls).subscribe(data => {
@@ -82,6 +86,7 @@ export class MonitorComponent implements OnInit {
   }
 
   doReset() {
+    this.stationDetails = null;
     this.selectStation.emit(this.station);
   }
 }
