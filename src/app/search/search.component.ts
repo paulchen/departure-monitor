@@ -13,6 +13,9 @@ export class SearchComponent implements OnInit {
   selectedStation: Station;
   results: Station[] = [];
   private stations: Station[] = [];
+  loading = true;
+  loadingLocation = false;
+  locationError = false;
   nearStations: { distance: number; station: Station }[];
 
   private static calculateDistance(coords: Coordinates, station: Station) {
@@ -39,7 +42,10 @@ export class SearchComponent implements OnInit {
   constructor(private rblService: RblService) { }
 
   ngOnInit(): void {
-    this.rblService.getStations().subscribe(stations => this.stations = stations);
+    this.rblService.getStations().subscribe(stations => {
+      this.stations = stations;
+      this.loading = false;
+    });
   }
 
   search(event: any) {
@@ -52,8 +58,17 @@ export class SearchComponent implements OnInit {
   }
 
   useGeolocation() {
+    this.loadingLocation = true;
+    this.locationError = false;
     navigator.geolocation.getCurrentPosition(position => {
+      this.loadingLocation = false;
       this.nearStations = this.findStations(position.coords);
+    }, () => {
+      this.loadingLocation = false;
+      this.nearStations = [];
+      this.locationError = true;
+    }, {
+      timeout: 10000
     });
   }
 

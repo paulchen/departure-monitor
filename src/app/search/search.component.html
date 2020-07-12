@@ -1,23 +1,39 @@
-Haltestelle:
+<div *ngIf="!loading">
+  Haltestelle:
 
-<p-autoComplete [(ngModel)]="selectedStation" [suggestions]="results" (completeMethod)="search($event)" field="name" [forceSelection]="true" (onSelect)="showStation($event)"></p-autoComplete>
-
-<p-button label="Aktuelle Position" (onClick)="useGeolocation()"></p-button>
+  <p-autoComplete [(ngModel)]="selectedStation" [suggestions]="results" (completeMethod)="search($event)" field="name" [forceSelection]="true" (onSelect)="showStation($event)"></p-autoComplete>
+  &nbsp;
+  <p-button label="Aktuelle Position" (onClick)="useGeolocation()"></p-button>
+</div>
 
 <div *ngIf="nearStations != null">
   <h2>Stationen in der Umgebung</h2>
-  <p-table [value]="nearStations" selectionMode="single" (onRowSelect)="selectStation($event)">
-    <ng-template pTemplate="header">
-      <tr>
-        <th>Name</th>
-        <th>Entfernung</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-station>
-      <tr [pSelectableRow]="station.station">
-        <td>{{station.station.name}}</td>
-        <td>{{station.distance | number:'1.0-2'}} km</td>
-      </tr>
-    </ng-template>
-  </p-table>
+  <div *ngIf="nearStations.length">
+    <p-table [value]="nearStations" selectionMode="single" (onRowSelect)="selectStation($event)">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Name</th>
+          <th>Entfernung</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-station>
+        <tr [pSelectableRow]="station.station">
+          <td>{{station.station.name}}</td>
+          <td>{{station.distance | number:'1.0-2'}} km</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <div *ngIf="!nearStations.length && !locationError">
+    Es konnten keine Stationen in der Umgebung gefunden werden.
+  </div>
+
+  <div *ngIf="locationError">
+    Die aktuelle Position konnte nicht ermittelt werden.
+  </div>
+</div>
+
+<div *ngIf="loading || loadingLocation">
+  <p-progressSpinner></p-progressSpinner>
 </div>

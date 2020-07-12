@@ -16,6 +16,7 @@ export class MonitorComponent implements OnInit {
 
   stationDetails: StationDetails;
   rblData: { [rbl: string]: Departure[] } = {};
+  loading = false;
   timeout;
 
   constructor(private rblService: RblService) { }
@@ -40,7 +41,9 @@ export class MonitorComponent implements OnInit {
     }
 
     const rbls = this.stationDetails.platforms.map(platform => platform.rbl);
+    this.loading = true;
     this.rblService.getDepartureData(rbls).subscribe(data => {
+      this.loading = false;
       this.rblData = data;
       this.timeout = setTimeout(() => { this.updateMonitor(); }, 30000);
     });
