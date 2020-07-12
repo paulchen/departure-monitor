@@ -11,6 +11,8 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule} from '@angular/forms';
 import {ButtonModule} from 'primeng/button';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import {InputSwitchModule} from 'primeng/inputswitch';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import {ButtonModule} from 'primeng/button';
     AutoCompleteModule,
     BrowserAnimationsModule,
     FormsModule,
-    ButtonModule
+    ButtonModule,
+    ProgressSpinnerModule,
+    InputSwitchModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,8 +1,10 @@
 <div *ngIf="stationDetails != null">
   <h2>{{stationDetails.name}}</h2>
-  <p-button label="Aktualisieren" (onClick)="updateMonitor()"></p-button>
-  &nbsp;
-  <p-button label="Andere Haltestelle" (onClick)="doReset()"></p-button>
+  <div>
+    <p-button label="Aktualisieren" (onClick)="updateMonitor()"></p-button>
+    &nbsp;
+    <p-button label="Andere Haltestelle" (onClick)="doReset()"></p-button>
+  </div>
 
   <div *ngFor="let platform of stationDetails.platforms">
     <h3 *ngIf="platform.showLines">{{platform.line_names.join(', ')}}</h3>
@@ -10,19 +12,19 @@
     <h4>Bahnsteig {{platform.platform}}</h4>
 
     <div *ngIf="rblData.hasOwnProperty(platform.rbl);else no_data">
-      <p-table [value]="rblData[platform.rbl]">
+      <p-table [value]="rblData[platform.rbl]" [loading]="loading">
         <ng-template pTemplate="header">
           <tr>
             <th style="width: 15%">Linie</th>
             <th style="width: 70%">Ziel</th>
-            <th style="width: 15%">Minuten</th>
+            <th style="width: 15%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden">Minuten</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-departure>
           <tr>
             <td>{{departure.line}}</td>
             <td>{{departure.towards}}</td>
-            <td>
+            <td style="white-space: nowrap;">
               {{departure.time}}
               <span *ngIf="departure.barrier_free">
                 ♿

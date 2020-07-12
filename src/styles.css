@@ -2,3 +2,6 @@
 body {
   font-family: "Open Sans","Helvetica Neue",sans-serif;
 }
+div.ui-inputswitch {
+  vertical-align: bottom;
+}
