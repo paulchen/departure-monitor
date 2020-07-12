@@ -6,15 +6,19 @@
     <p-button label="Andere Haltestelle" (onClick)="doReset()"></p-button>
   </div>
 
-  <div *ngFor="let platform of stationDetails.platforms">
-    <h3 *ngIf="platform.showLines">{{platform.line_names.join(', ')}}</h3>
+  <div style="vertical-align: bottom; margin-top: 1em">
+    <p-inputSwitch [(ngModel)]="compact"></p-inputSwitch>&nbsp;kompakt
+  </div>
 
-    <h4>Bahnsteig {{platform.platform}}</h4>
+  <div *ngFor="let platform of stationDetails.platforms">
+    <h3 *ngIf="(!compact || rblData.hasOwnProperty(platform.rbl)) && platform.showLines">{{platform.line_names.join(', ')}}</h3>
+
+    <h4 *ngIf="!compact">Bahnsteig {{platform.platform}}</h4>
 
     <div *ngIf="rblData.hasOwnProperty(platform.rbl);else no_data">
-      <p-table [value]="rblData[platform.rbl]" [loading]="loading">
+      <p-table [value]="compact ? rblDataCompact[platform.rbl] : rblData[platform.rbl]" [loading]="loading">
         <ng-template pTemplate="header">
-          <tr>
+          <tr *ngIf="!compact">
             <th style="width: 15%">Linie</th>
             <th style="width: 70%">Ziel</th>
             <th style="width: 15%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden">Minuten</th>
@@ -22,9 +26,9 @@
         </ng-template>
         <ng-template pTemplate="body" let-departure>
           <tr>
-            <td>{{departure.line}}</td>
-            <td>{{departure.towards}}</td>
-            <td style="white-space: nowrap;">
+            <td style="width: 15%">{{departure.line}}</td>
+            <td style="width: 70%">{{departure.towards}}</td>
+            <td style="white-space: nowrap; width: 15%;">
               {{departure.time}}
               <span *ngIf="departure.barrier_free">
                 ♿
@@ -33,10 +37,13 @@
           </tr>
         </ng-template>
       </p-table>
+      <div *ngIf="compact" style="height: 1em;"></div>
     </div>
 
     <ng-template #no_data>
-      Keine Daten vorhanden.
+      <div *ngIf="!compact">
+        Keine Daten vorhanden.
+      </div>
     </ng-template>
   </div>
 </div>
