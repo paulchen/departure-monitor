@@ -1,9 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { RblService } from '../rbl.service';
 import { Departure } from '../departure';
-import {Station} from '../search/station';
 import {StationDetails} from '../station-details';
 import {Platform} from '../platform';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-monitor',
@@ -11,9 +11,6 @@ import {Platform} from '../platform';
   styleUrls: ['./monitor.component.css']
 })
 export class MonitorComponent implements OnInit {
-  @Input() station: Station;
-  @Output() selectStation = new EventEmitter<Station>();
-
   stationDetails: StationDetails;
   rblData: { [rbl: string]: Departure[] } = {};
   rblDataCompact: { [rbl: string]: Departure[] } = {};
@@ -21,7 +18,7 @@ export class MonitorComponent implements OnInit {
   compact = true;
   timeout;
 
-  constructor(private rblService: RblService) { }
+  constructor(private rblService: RblService, private route: ActivatedRoute, private router: Router) { }
 
   private static getCompactRblData(rblData: { [rbl: string]: Departure[] }): { [rbl: string]: Departure[] } {
     const result: { [rbl: string]: Departure[] } = {};
@@ -53,16 +50,23 @@ export class MonitorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.rblService.getStationDetails(this.station).subscribe(stationDetails => {
-      let previousPlatform: Platform;
-      stationDetails.platforms.forEach(currentPlatform => {
-        currentPlatform.showLines = !previousPlatform ||
-          JSON.stringify(previousPlatform.line_names) !== JSON.stringify(currentPlatform.line_names);
-        previousPlatform = currentPlatform;
-      });
+    this.route.params.subscribe(params => {
+      const stationName = params.name;
+      this.rblService.getStationDetails(params.id).subscribe(stationDetails => {
+        if (stationDetails.name !== stationName) {
+          this.router.navigate(['/notFound']).then(() => {});
+        }
 
-      this.stationDetails = stationDetails;
-      this.updateMonitor();
+        let previousPlatform: Platform;
+        stationDetails.platforms.forEach(currentPlatform => {
+          currentPlatform.showLines = !previousPlatform ||
+            JSON.stringify(previousPlatform.line_names) !== JSON.stringify(currentPlatform.line_names);
+          previousPlatform = currentPlatform;
+        });
+
+        this.stationDetails = stationDetails;
+        this.updateMonitor();
+      });
     });
   }
 
@@ -87,6 +91,6 @@ export class MonitorComponent implements OnInit {
 
   doReset() {
     this.stationDetails = null;
-    this.selectStation.emit(this.station);
+    this.router.navigate(['/']).then(() => {});
   }
 }

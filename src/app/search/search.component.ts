@@ -1,6 +1,7 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RblService} from '../rbl.service';
 import {Station} from './station';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -8,8 +9,6 @@ import {Station} from './station';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-  @Output() selected = new EventEmitter<Station>();
-
   selectedStation: Station;
   results: Station[] = [];
   private stations: Station[] = [];
@@ -17,6 +16,8 @@ export class SearchComponent implements OnInit {
   loadingLocation = false;
   locationError = false;
   nearStations: { distance: number; station: Station }[];
+
+  constructor(private rblService: RblService, private router: Router) { }
 
   private static calculateDistance(coords: Coordinates, station: Station) {
     return SearchComponent.getDistanceFromLatLonInKm(coords.latitude, coords.longitude, station.lat, station.lon);
@@ -39,8 +40,6 @@ export class SearchComponent implements OnInit {
     return deg * (Math.PI / 180);
   }
 
-  constructor(private rblService: RblService) { }
-
   ngOnInit(): void {
     this.rblService.getStations().subscribe(stations => {
       this.stations = stations;
@@ -52,10 +51,6 @@ export class SearchComponent implements OnInit {
     this.results = this.stations
       .filter(station => station.name.toLowerCase().indexOf(event.query.toLowerCase()) !== -1)
       .sort((a, b) => b.line_count - a.line_count);
-  }
-
-  showStation(station: Station) {
-    this.selected.emit(station);
   }
 
   useGeolocation() {
@@ -89,7 +84,7 @@ export class SearchComponent implements OnInit {
     return 0;
   }
 
-  selectStation(event: any) {
-    this.selected.emit(event.data);
+  selectStation(event: Station) {
+    this.router.navigate(['/station', event.id, event.name]).then(() => {});
   }
 }

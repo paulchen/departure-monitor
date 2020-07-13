@@ -24,7 +24,7 @@ export class RblService {
     return this.http.get<Station[]>(this.stationsUrl);
   }
 
-  getStationDetails(station: Station): Observable<StationDetails> {
-    return this.http.get<StationDetails>(this.stationDetailsUrl + station.id);
+  getStationDetails(stationId: number): Observable<StationDetails> {
+    return this.http.get<StationDetails>(this.stationDetailsUrl + stationId);
   }
 }
