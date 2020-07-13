@@ -29,10 +29,14 @@
             <td style="width: 15%">{{departure.line}}</td>
             <td style="width: 70%">{{departure.towards}}</td>
             <td style="white-space: nowrap; width: 15%;">
-              {{departure.time}}
-              <span *ngIf="departure.barrier_free">
+              <div *ngIf="departure.barrier_free; else no_wheelchair" style="display: inline-block; width: 1.5ch">
                 ♿
-              </span>
+              </div>
+
+              <ng-template #no_wheelchair>
+                <div style="display: inline-block; width: 1.5ch"></div>
+              </ng-template>
+              {{departure.time}}
             </td>
           </tr>
         </ng-template>
