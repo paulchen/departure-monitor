@@ -1,10 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
 body {
   font-family: "Open Sans","Helvetica Neue",sans-serif;
+  margin-bottom: calc(3em + 24px + .5em);
 }
 div.ui-inputswitch {
   vertical-align: bottom;
 }
 th {
   text-align: left;
+}
+div.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 8px;
+  font-size: 90%;
+  height: calc(3em + 24px);
+  width: 100%;
+  background-color: white;
 }
