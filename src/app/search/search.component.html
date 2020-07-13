@@ -9,7 +9,7 @@
 <div *ngIf="nearStations != null">
   <h2>Stationen in der Umgebung</h2>
   <div *ngIf="nearStations.length">
-    <p-table [value]="nearStations" selectionMode="single" (onRowSelect)="selectStation($event)">
+    <p-table [value]="nearStations" selectionMode="single" (onRowSelect)="selectStation($event.data)">
       <ng-template pTemplate="header">
         <tr>
           <th>Name</th>
