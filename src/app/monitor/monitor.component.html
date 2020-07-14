@@ -20,22 +20,18 @@
         <ng-template pTemplate="header">
           <tr *ngIf="!compact">
             <th style="width: 15%">Linie</th>
-            <th style="width: 70%">Ziel</th>
-            <th style="width: 15%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden">Minuten</th>
+            <th style="width: 68%">Ziel</th>
+            <th style="width: 17%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden">Minuten</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-departure>
           <tr>
             <td style="width: 15%">{{departure.line}}</td>
-            <td style="width: 70%">{{departure.towards}}</td>
-            <td style="white-space: nowrap; width: 15%;">
-              <div *ngIf="departure.barrier_free; else no_wheelchair" style="display: inline-block; width: 1.5ch">
+            <td style="width: 68%">{{departure.towards}}</td>
+            <td style="white-space: nowrap; width: 17%;">
+              <div [style.visibility]="departure.barrier_free ? 'visible' : 'hidden'" [style.display]="'inline-block'">
                 ♿
               </div>
-
-              <ng-template #no_wheelchair>
-                <div style="display: inline-block; width: 1.5ch"></div>
-              </ng-template>
               {{departure.time}}
             </td>
           </tr>
