@@ -1,3 +1,7 @@
+<div *ngIf="stationDetails == null">
+  <p-progressSpinner></p-progressSpinner>
+</div>
+
 <div *ngIf="stationDetails != null">
   <h2>{{stationDetails.name}}</h2>
   <div>
@@ -15,6 +19,7 @@
 
     <h4 *ngIf="!compact">Bahnsteig {{platform.platform}}</h4>
 
+    <div *ngIf="!loading">
     <div *ngIf="rblData.hasOwnProperty(platform.rbl);else no_data">
       <p-table [value]="compact ? rblDataCompact[platform.rbl] : rblData[platform.rbl]" [loading]="loading">
         <ng-template pTemplate="header">
