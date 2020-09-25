@@ -33,12 +33,11 @@
           <tr>
             <td style="width: 15%">{{departure.line}}</td>
             <td style="width: 68%">{{departure.towards}}</td>
-            <td style="white-space: nowrap; width: 17%;">
-              <div [style.visibility]="departure.barrier_free ? 'visible' : 'hidden'" [style.display]="'inline-block'">
-                ♿
-              </div>
-              {{departure.time}}
+            <td style="width: 1%; border-right: none; text-align: center;">
+              <div *ngIf="departure.folding_ramp">_</div>
+              <div *ngIf="departure.barrier_free && !departure.folding_ramp">♿</div>
             </td>
+            <td style="width: 16%; border-left: none;">{{departure.time}}</td>
           </tr>
         </ng-template>
       </p-table>
