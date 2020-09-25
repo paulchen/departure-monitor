@@ -85,7 +85,7 @@ export class MonitorComponent implements OnInit {
       this.loading = false;
       this.rblData = data;
       this.rblDataCompact = MonitorComponent.getCompactRblData(data);
-      this.timeout = setTimeout(() => { this.updateMonitor(); }, 30000);
+      // this.timeout = setTimeout(() => { this.updateMonitor(); }, 30000);
     });
   }
 
