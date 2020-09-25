@@ -19,3 +19,6 @@ div.footer {
   width: 100%;
   background-color: white;
 }
+.p-datatable table {
+  table-layout: auto !important;
+}
