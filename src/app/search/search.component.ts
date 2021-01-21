@@ -19,7 +19,7 @@ export class SearchComponent implements OnInit {
 
   constructor(private rblService: RblService, private router: Router) { }
 
-  private static calculateDistance(coords: Coordinates, station: Station) {
+  private static calculateDistance(coords: GeolocationCoordinates, station: Station) {
     return SearchComponent.getDistanceFromLatLonInKm(coords.latitude, coords.longitude, station.lat, station.lon);
   }
 
@@ -68,7 +68,7 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  findStations(coords: Coordinates): { distance: number; station: Station }[] {
+  findStations(coords: GeolocationCoordinates): { distance: number; station: Station }[] {
     return this.stations.map(item => {
       return {station: item, distance: SearchComponent.calculateDistance(coords, item)};
     }).sort(this.compare).slice(0, 10);
