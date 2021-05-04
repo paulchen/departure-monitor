@@ -79,7 +79,7 @@ export class MonitorComponent implements OnInit {
       return;
     }
 
-    const rbls = this.stationDetails.platforms.map(platform => platform.rbl);
+    const rbls = this.stationDetails.platforms.filter(platform => platform.rbl != null).map(platform => platform.rbl);
     this.loading = true;
     this.rblService.getDepartureData(rbls).subscribe(data => {
       this.loading = false;
