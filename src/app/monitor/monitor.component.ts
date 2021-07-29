@@ -41,6 +41,17 @@ export class MonitorComponent implements OnInit {
       if((multipleLines && entriesByLine[line] <= 1) || (!multipleLines && entriesByLine[line] <= 2)) {
         result.push(departure);
       }
+      else if(parseInt(departure.time, 10) < 30) {
+        let found = false;
+        result.forEach((existingDeparture) => {
+          if(departure.line === existingDeparture.line && departure.towards === existingDeparture.towards) {
+            found = true;
+          }
+        });
+        if(!found) {
+          result.push(departure);
+        }
+      }
     });
     return result;
   }
