@@ -69,13 +69,6 @@ export class MonitorComponent implements OnInit {
           this.router.navigate(['/notFound']).then(() => {});
         }
 
-        let previousPlatform: Platform;
-        stationDetails.platforms.forEach(currentPlatform => {
-          currentPlatform.showLines = !previousPlatform ||
-            JSON.stringify(previousPlatform.line_names) !== JSON.stringify(currentPlatform.line_names);
-          previousPlatform = currentPlatform;
-        });
-
         this.stationDetails = stationDetails;
         this.updateMonitor();
       });
@@ -99,6 +92,20 @@ export class MonitorComponent implements OnInit {
       this.rblDataCompact = MonitorComponent.getCompactRblData(data);
       this.anyRbl = Object.keys(data).length > 0;
       this.timeout = setTimeout(() => { this.updateMonitor(); }, 30000);
+
+      let previousPlatform: Platform;
+      let previousPlatformCompact: Platform;
+      this.stationDetails.platforms.forEach(currentPlatform => {
+        currentPlatform.showLines = !previousPlatform ||
+          JSON.stringify(previousPlatform.line_names) !== JSON.stringify(currentPlatform.line_names);
+        currentPlatform.showLinesCompact = (!previousPlatformCompact ||
+          JSON.stringify(previousPlatformCompact.line_names) !== JSON.stringify(currentPlatform.line_names)) &&
+          this.rblData.hasOwnProperty(currentPlatform.rbl);
+        previousPlatform = currentPlatform;
+        if(this.rblData.hasOwnProperty(currentPlatform.rbl)) {
+          previousPlatformCompact = currentPlatform;
+        }
+      });
     });
   }
 

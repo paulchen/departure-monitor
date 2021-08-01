@@ -4,4 +4,5 @@ export class Platform {
   line_names: string[];
   line_ids: string[];
   showLines: boolean;
+  showLinesCompact: boolean;
 }

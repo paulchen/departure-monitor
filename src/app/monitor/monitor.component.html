@@ -14,12 +14,12 @@
     <p-inputSwitch [(ngModel)]="compact"></p-inputSwitch>&nbsp;kompakt
   </div>
 
-  <div *ngIf="compact && !anyRbl" style="padding-top: 1em;">
+  <div *ngIf="compact && !anyRbl && !loading" style="padding-top: 1em;">
     Leider sind für diese Haltestelle keine keine Echtzeitdaten vorhanden.
   </div>
 
   <div *ngFor="let platform of stationDetails.platforms">
-    <h3 *ngIf="(!compact || rblData.hasOwnProperty(platform.rbl)) && platform.showLines">{{platform.line_names.join(', ')}}</h3>
+    <h3 *ngIf="(!compact && platform.showLines) || (compact && platform.showLinesCompact)">{{platform.line_names.join(', ')}}</h3>
 
     <h4 *ngIf="!compact">Bahnsteig {{platform.platform}}</h4>
 
