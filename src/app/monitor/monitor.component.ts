@@ -44,7 +44,7 @@ export class MonitorComponent implements OnInit {
       else if(parseInt(departure.time, 10) < 30) {
         let found = false;
         result.forEach((existingDeparture) => {
-          if(departure.line === existingDeparture.line && departure.towards === existingDeparture.towards) {
+          if(departure.line === existingDeparture.line && departure.towards.toLowerCase() === existingDeparture.towards.toLowerCase()) {
             found = true;
           }
         });
