@@ -17,6 +17,7 @@ export class MonitorComponent implements OnInit {
   loading = false;
   compact = true;
   timeout;
+  anyRbl: boolean;
 
   constructor(private rblService: RblService, private route: ActivatedRoute, private router: Router) { }
 
@@ -96,6 +97,7 @@ export class MonitorComponent implements OnInit {
       this.loading = false;
       this.rblData = data;
       this.rblDataCompact = MonitorComponent.getCompactRblData(data);
+      this.anyRbl = Object.keys(data).length > 0;
       // this.timeout = setTimeout(() => { this.updateMonitor(); }, 30000);
     });
   }
