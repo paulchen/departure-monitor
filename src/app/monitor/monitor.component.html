@@ -25,12 +25,12 @@
 
     <div *ngIf="!loading">
     <div *ngIf="rblData.hasOwnProperty(platform.rbl);else no_data">
-      <p-table [value]="compact ? rblDataCompact[platform.rbl] : rblData[platform.rbl]" [loading]="loading">
+      <p-table [value]="compact ? rblDataCompact[platform.rbl] : rblData[platform.rbl]" [loading]="loading" responsiveLayout="scroll">
         <ng-template pTemplate="header">
           <tr *ngIf="!compact">
             <th style="width: 15%">Linie</th>
             <th style="width: 68%">Ziel</th>
-            <th style="width: 17%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden">Minuten</th>
+            <th style="width: 17%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden" colspan="2">Minuten</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-departure>
