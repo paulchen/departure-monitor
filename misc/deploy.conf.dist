@@ -1,0 +1,2 @@
+BASE_HREF=/wienerlinien/departure-monitor/
+SYSTEMD_UNIT=departure-monitor
