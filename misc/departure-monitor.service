@@ -1,0 +1,21 @@
+[Unit]
+Description=Departure monitor
+
+[Service]
+User=root
+Restart=always
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker stop departure-monitor
+ExecStartPre=-/usr/bin/docker rm departure-monitor
+
+ExecStart=/usr/bin/docker run \
+    --name departure-monitor \
+    -p 127.0.0.1:8083:80 \
+    departure-monitor:latest 
+
+ExecStop=-/usr/bin/docker stop departure-monitor
+ExecStop=-/usr/bin/docker rm departure-monitor
+
+[Install]
+WantedBy=multi-user.target
+

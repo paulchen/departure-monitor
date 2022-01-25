@@ -42,14 +42,19 @@ export class MonitorComponent implements OnInit {
       if((multipleLines && entriesByLine[line] <= 1) || (!multipleLines && entriesByLine[line] <= 2)) {
         result.push(departure);
       }
-      else if(parseInt(departure.time, 10) < 30) {
-        let found = false;
+      else {
+        let add = true;
         result.forEach((existingDeparture) => {
           if(departure.line === existingDeparture.line && departure.towards.toLowerCase() === existingDeparture.towards.toLowerCase()) {
-            found = true;
+            if(!departure.barrier_free || existingDeparture.barrier_free) {
+              add = false;
+            }
+            else if (parseInt(departure.time, 10) > 30) {
+              add = false;
+            }
           }
         });
-        if(!found) {
+        if(add) {
           result.push(departure);
         }
       }
