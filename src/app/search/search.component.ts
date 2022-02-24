@@ -64,7 +64,8 @@ export class SearchComponent implements OnInit {
       this.nearStations = [];
       this.locationError = true;
     }, {
-      timeout: 10000
+      timeout: 10000,
+      maximumAge: 0
     });
   }
 
