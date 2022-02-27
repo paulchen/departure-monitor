@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {RblService} from '../rbl.service';
-import {Station} from './station';
+import {Station, StationData} from './station';
 import {Router} from '@angular/router';
 
 @Component({
@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
 export class SearchComponent implements OnInit {
   selectedStation: Station;
   results: Station[] = [];
-  private stations: Station[] = [];
+  private stationData: StationData = new StationData();
   loading = true;
   loadingLocation = false;
   locationError = false;
@@ -41,14 +41,35 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.rblService.getStations().subscribe(stations => {
-      this.stations = stations;
+    this.rblService.getStations().subscribe(stationData => {
+      for (const line of stationData.lines) {
+        for (const type of stationData.line_types) {
+          if (line.type == type.id) {
+            line.line_type = type;
+          }
+        }
+      }
+
+      for (const station of stationData.stations) {
+        station.line_count = station.line_list.length;
+
+        let lines = [];
+        for (const line of stationData.lines) {
+          if (station.line_list.includes(line.id)) {
+            lines.push(line)
+          }
+        }
+
+        station.lines = lines;
+      }
+
+      this.stationData = stationData;
       this.loading = false;
     });
   }
 
   search(event: any) {
-    this.results = this.stations
+    this.results = this.stationData.stations
       .filter(station => station.name.toLowerCase().indexOf(event.query.toLowerCase()) !== -1)
       .sort((a, b) => b.line_count - a.line_count);
   }
@@ -70,7 +91,7 @@ export class SearchComponent implements OnInit {
   }
 
   findStations(coords: GeolocationCoordinates): { distance: number; station: Station }[] {
-    return this.stations.map(item => {
+    return this.stationData.stations.map(item => {
       return {station: item, distance: SearchComponent.calculateDistance(coords, item)};
     }).sort(this.compare).slice(0, 10);
   }

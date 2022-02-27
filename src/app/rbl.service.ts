@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Departure } from './departure';
-import {Station} from './search/station';
+import {StationData} from './search/station';
 import {StationDetails} from './station-details';
 
 @Injectable({
@@ -20,8 +20,8 @@ export class RblService {
     return this.http.get<{ [rbl: string]: Departure[] }>(this.departuresUrl + numberString);
   }
 
-  getStations(): Observable<Station[]> {
-    return this.http.get<Station[]>(this.stationsUrl);
+  getStations(): Observable<StationData> {
+    return this.http.get<StationData>(this.stationsUrl);
   }
 
   getStationDetails(stationId: number): Observable<StationDetails> {

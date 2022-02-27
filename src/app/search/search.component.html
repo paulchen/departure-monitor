@@ -18,7 +18,12 @@
       </ng-template>
       <ng-template pTemplate="body" let-station>
         <tr [pSelectableRow]="station.station">
-          <td>{{station.station.name}}</td>
+          <td>
+            {{station.station.name}}<br />
+            <span *ngFor="let line of station.station.lines" [ngStyle]="{ 'font-weight': 'bold', 'font-size': '70%', 'color': '#' + line.line_type.color }">
+              {{line.name}}
+            </span>
+          </td>
           <td>{{station.distance | number:'1.0-2'}} km</td>
         </tr>
       </ng-template>

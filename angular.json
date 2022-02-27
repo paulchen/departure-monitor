@@ -35,6 +35,14 @@
             ]
           },
           "configurations": {
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -70,6 +78,9 @@
             "browserTarget": "departure-monitor:build"
           },
           "configurations": {
+            "development": {
+              "browserTarget": "departure-monitor:build:development"
+            },
             "production": {
               "browserTarget": "departure-monitor:build:production"
             }
