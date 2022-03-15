@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Station} from './search/station';
+import {Station} from './main/station';
 
 @Component({
   selector: 'app-root',

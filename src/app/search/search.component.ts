@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {RblService} from '../rbl.service';
-import {Station, StationData} from './station';
-import {Router} from '@angular/router';
+import { Router} from '@angular/router';
+import {Station, StationData} from "../main/station";
+import {DataService} from "../data.service";
 
 @Component({
   selector: 'app-search',
@@ -15,54 +15,11 @@ export class SearchComponent implements OnInit {
   loading = true;
   loadingLocation = false;
   locationError = false;
-  nearStations: { distance: number; station: Station }[];
 
-  constructor(private rblService: RblService, private router: Router) { }
-
-  private static calculateDistance(coords: GeolocationCoordinates, station: Station) {
-    return SearchComponent.getDistanceFromLatLonInKm(coords.latitude, coords.longitude, station.lat, station.lon);
-  }
-
-  private static getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-    const R = 6371; // Radius of the earth in km
-    const dLat = SearchComponent.deg2rad(lat2 - lat1);  // deg2rad below
-    const dLon = SearchComponent.deg2rad(lon2 - lon1);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(SearchComponent.deg2rad(lat1)) * Math.cos(SearchComponent.deg2rad(lat2)) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2)
-    ;
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c; // Distance in km
-  }
-
-  private static deg2rad(deg) {
-    return deg * (Math.PI / 180);
-  }
+  constructor(private dataService: DataService, private router: Router) { }
 
   ngOnInit(): void {
-    this.rblService.getStations().subscribe(stationData => {
-      for (const line of stationData.lines) {
-        for (const type of stationData.line_types) {
-          if (line.type == type.id) {
-            line.line_type = type;
-          }
-        }
-      }
-
-      for (const station of stationData.stations) {
-        station.line_count = station.line_list.length;
-
-        let lines = [];
-        for (const line of stationData.lines) {
-          if (station.line_list.includes(line.id)) {
-            lines.push(line)
-          }
-        }
-
-        station.lines = lines;
-      }
-
+    this.dataService.getStations().subscribe(stationData => {
       this.stationData = stationData;
       this.loading = false;
     });
@@ -79,31 +36,16 @@ export class SearchComponent implements OnInit {
     this.locationError = false;
     navigator.geolocation.getCurrentPosition(position => {
       this.loadingLocation = false;
-      this.nearStations = this.findStations(position.coords);
+      let lat = position.coords.latitude;
+      let lon = position.coords.longitude;
+      this.router.navigate(['/vicinity', lat, lon]).then(() => {});
     }, () => {
       this.loadingLocation = false;
-      this.nearStations = [];
       this.locationError = true;
     }, {
       timeout: 10000,
       maximumAge: 0
     });
-  }
-
-  findStations(coords: GeolocationCoordinates): { distance: number; station: Station }[] {
-    return this.stationData.stations.map(item => {
-      return {station: item, distance: SearchComponent.calculateDistance(coords, item)};
-    }).sort(this.compare).slice(0, 10);
-  }
-
-  compare(a, b) {
-    if (a.distance < b.distance) {
-      return -1;
-    }
-    if (a.distance > b.distance) {
-      return 1;
-    }
-    return 0;
   }
 
   selectStation(event: Station) {

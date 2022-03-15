@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Departure } from './departure';
-import {StationData} from './search/station';
+import {StationData} from './main/station';
 import {StationDetails} from './station-details';
 
 @Injectable({
