@@ -14,6 +14,7 @@ export class Line {
   name: string;
   type: number;
   line_type: LineType;
+  color: string;
 }
 
 export class Station {

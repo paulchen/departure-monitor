@@ -14,7 +14,7 @@
         <tr [pSelectableRow]="station.station">
           <td>
             {{station.station.name}}<br />
-            <span *ngFor="let line of station.station.lines" [ngStyle]="{ 'font-weight': 'bold', 'font-size': '70%', 'color': '#' + line.line_type.color }">
+            <span *ngFor="let line of station.station.lines" [ngStyle]="{ 'font-weight': 'bold', 'font-size': '70%', 'color': '#' + (line.color != null ? line.color : line.line_type.color) }">
               {{line.name}}
             </span>
           </td>
