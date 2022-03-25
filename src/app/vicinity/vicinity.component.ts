@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Station, StationData} from "../main/station";
-import {DataService} from "../data.service";
+import {Station, StationData} from '../main/station';
+import {DataService} from '../data.service';
+import {ViewportScroller} from '@angular/common';
 
 @Component({
   selector: 'app-vicinity',
@@ -17,7 +18,12 @@ export class VicinityComponent implements OnInit {
   locationError = false;
   nearStations: { distance: number; station: Station }[];
 
-  constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router) { }
+  constructor(
+    private dataService: DataService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private viewportScroller: ViewportScroller,
+  ) { }
 
   private static calculateDistance(coords: GeolocationCoordinates, station: Station) {
     return VicinityComponent.getDistanceFromLatLonInKm(coords.latitude, coords.longitude, station.lat, station.lon);
@@ -41,12 +47,13 @@ export class VicinityComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const component = this;
     this.dataService.getStations().subscribe(stationData => {
       this.stationData = stationData;
       this.loading = false;
 
       this.route.params.subscribe(params => {
-        let coords: GeolocationCoordinates = {
+        const coords: GeolocationCoordinates = {
           latitude: parseFloat(params.lat),
           longitude: parseFloat(params.lon),
           accuracy: 0,
@@ -56,8 +63,14 @@ export class VicinityComponent implements OnInit {
           speed: 0
         }
         this.nearStations = this.findStations(coords);
+
+        setTimeout(() => { component.scrollToMessage() }, 100);
       })
     });
+  }
+
+  private scrollToMessage() {
+    this.viewportScroller.scrollToAnchor('nearby_stations');
   }
 
   search(event: any) {
