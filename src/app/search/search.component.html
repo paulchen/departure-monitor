@@ -11,11 +11,13 @@
   &nbsp;
   <label for="saveHistory">Zuletzt verwendete Haltestellen im Browser speichern</label>
 
-  <div *ngIf="saveHistory" style="padding-top: 1em;">
-    <span *ngFor="let station of mostRecentStations">
-      <p-button label="{{station.name}}" (onClick)="selectStation(station)"></p-button>
+  <div *ngIf="saveHistory" style="line-height: 3em;">
+    <ng-container *ngFor="let station of mostRecentStations">
+      <span>
+        <p-button label="{{station.name}}" (onClick)="selectStation(station)"></p-button>
+      </span>
       &nbsp;
-    </span>
+    </ng-container>
   </div>
 </div>
 
