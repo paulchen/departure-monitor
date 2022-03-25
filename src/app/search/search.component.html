@@ -6,6 +6,19 @@
   <p-button label="Aktuelle Position" (onClick)="useGeolocation()"></p-button>
 </div>
 
+<div style="padding-top: 1em;">
+  <p-checkbox [(ngModel)]="saveHistory" [binary]="true" inputId="saveHistory" (onChange)="updateHistorySetting($event)"></p-checkbox>
+  &nbsp;
+  <label for="saveHistory">Zuletzt verwendete Haltestellen im Browser speichern</label>
+
+  <div *ngIf="saveHistory" style="padding-top: 1em;">
+    <span *ngFor="let station of mostRecentStations">
+      <p-button label="{{station.name}}" (onClick)="selectStation(station)"></p-button>
+      &nbsp;
+    </span>
+  </div>
+</div>
+
 <div *ngIf="locationError">
   Die aktuelle Position konnte nicht ermittelt werden.
 </div>
@@ -13,3 +26,4 @@
 <div *ngIf="loading || loadingLocation">
   <p-progressSpinner></p-progressSpinner>
 </div>
+

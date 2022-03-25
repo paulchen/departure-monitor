@@ -14,8 +14,9 @@ import {ButtonModule} from 'primeng/button';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import {VicinityComponent} from "./vicinity/vicinity.component";
-import {SearchComponent} from "./search/search.component";
+import {VicinityComponent} from './vicinity/vicinity.component';
+import {SearchComponent} from './search/search.component';
+import {CheckboxModule} from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {SearchComponent} from "./search/search.component";
     FormsModule,
     ButtonModule,
     ProgressSpinnerModule,
-    InputSwitchModule
+    InputSwitchModule,
+    CheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]
