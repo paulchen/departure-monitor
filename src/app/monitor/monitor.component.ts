@@ -70,6 +70,7 @@ export class MonitorComponent implements OnInit {
     this.route.params.subscribe(params => {
       const stationName = params.name;
       this.rblService.getStationDetails(params.id).subscribe(stationDetails => {
+        this.updateHistory(params.id);
         if (stationDetails.name !== stationName) {
           this.router.navigate(['/notFound']).then(() => {});
         }
@@ -78,6 +79,30 @@ export class MonitorComponent implements OnInit {
         this.updateMonitor();
       });
     });
+  }
+
+  private updateHistory(station: number): void {
+    const saveHistory = localStorage.getItem('save_history');
+    if (saveHistory !== 'true') {
+      return;
+    }
+
+    const oldHistory = localStorage.getItem('station_history');
+    let newHistory;
+    if (!oldHistory) {
+      newHistory = station;
+    }
+    else {
+      const history = oldHistory
+        .split(',')
+        .filter((item: string) => {
+          return item !== station.toString();
+        })
+        .slice(0, 9);
+      history.unshift(station.toString());
+      newHistory = history.join(',')
+    }
+    localStorage.setItem('station_history', newHistory);
   }
 
   updateMonitor(): void {

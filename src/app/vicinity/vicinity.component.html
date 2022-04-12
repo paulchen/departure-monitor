@@ -1,6 +1,6 @@
 <app-search></app-search>
 
-<div *ngIf="nearStations != null">
+<div *ngIf="nearStations != null" id="nearby_stations">
   <h2>Stationen in der Umgebung</h2>
   <div *ngIf="nearStations.length">
     <p-table [value]="nearStations" selectionMode="single" (onRowSelect)="selectStation($event.data)" responsiveLayout="scroll">
