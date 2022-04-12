@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { Router} from '@angular/router';
 import {Station, StationData} from '../main/station';
 import {DataService} from '../data.service';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-search',
@@ -21,7 +22,7 @@ export class SearchComponent implements OnInit {
   constructor(private dataService: DataService, private router: Router) { }
 
   ngOnInit(): void {
-    if (localStorage.getItem('save_history') === 'true') {
+    if (localStorage.getItem(environment.localStoragePrefix + 'save_history') === 'true') {
       this.saveHistory = true;
     }
 
@@ -30,7 +31,7 @@ export class SearchComponent implements OnInit {
       this.loading = false;
 
       if (this.saveHistory) {
-        const stationHistory = localStorage.getItem('station_history');
+        const stationHistory = localStorage.getItem(environment.localStoragePrefix + 'station_history');
         if (stationHistory !== null) {
           this.mostRecentStations = stationHistory
             .split(',')
@@ -71,10 +72,11 @@ export class SearchComponent implements OnInit {
 
   updateHistorySetting(event) {
     if (event.checked) {
-      localStorage.setItem('save_history', 'true')
+      localStorage.setItem(environment.localStoragePrefix + 'save_history', 'true')
     }
     else {
-      localStorage.clear();
+      localStorage.removeItem(environment.localStoragePrefix + 'save_history');
+      localStorage.removeItem(environment.localStoragePrefix + 'station_history');
       this.mostRecentStations = [];
     }
   }

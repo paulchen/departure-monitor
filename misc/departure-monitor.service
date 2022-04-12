@@ -13,6 +13,7 @@ ExecStart=/usr/bin/docker run \
     -p 127.0.0.1:8083:80 \
     -e BASE_HREF="/wienerlinien/departure-monitor" \
     -e API_URL="https://rueckgr.at/wienerlinien/" \
+    -e LOCAL_STORAGE_PREFIX="" \
     departure-monitor:latest
 
 ExecStop=-/usr/bin/docker stop departure-monitor
