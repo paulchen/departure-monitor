@@ -52,11 +52,11 @@ export class SearchComponent implements OnInit {
   useGeolocation() {
     this.loadingLocation = true;
     this.locationError = false;
-    navigator.geolocation.getCurrentPosition(position => {
+    navigator.geolocation.getCurrentPosition(position => { //NOSONAR
       this.loadingLocation = false;
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
-      this.router.navigate(['/vicinity', lat, lon]).then(() => {});
+      this.router.navigate(['/vicinity', lat, lon]).then(() => { /* do nothing */ });
     }, () => {
       this.loadingLocation = false;
       this.locationError = true;
@@ -67,7 +67,7 @@ export class SearchComponent implements OnInit {
   }
 
   selectStation(event: Station) {
-    this.router.navigate(['/station', event.id, event.name]).then(() => {});
+    this.router.navigate(['/station', event.id, event.name]).then(() => { /* empty */ });
   }
 
   updateHistorySetting(event) {

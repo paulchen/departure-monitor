@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {Station} from './main/station';
 
 @Component({
   selector: 'app-root',
@@ -8,14 +7,4 @@ import {Station} from './main/station';
 })
 export class AppComponent {
   title = 'departure-monitor';
-
-  station: Station;
-
-  stationSelected(station: Station) {
-    this.station = station;
-  }
-
-  doReset() {
-    this.station = null;
-  }
 }

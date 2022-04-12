@@ -10,7 +10,6 @@ import {ViewportScroller} from '@angular/common';
   styleUrls: ['./vicinity.component.css']
 })
 export class VicinityComponent implements OnInit {
-  selectedStation: Station;
   results: Station[] = [];
   private stationData: StationData = new StationData();
   loading = true;
@@ -79,22 +78,6 @@ export class VicinityComponent implements OnInit {
       .sort((a, b) => b.line_count - a.line_count);
   }
 
-  useGeolocation() {
-    this.loadingLocation = true;
-    this.locationError = false;
-    navigator.geolocation.getCurrentPosition(position => {
-      this.loadingLocation = false;
-      this.nearStations = this.findStations(position.coords);
-    }, () => {
-      this.loadingLocation = false;
-      this.nearStations = [];
-      this.locationError = true;
-    }, {
-      timeout: 10000,
-      maximumAge: 0
-    });
-  }
-
   findStations(coords: GeolocationCoordinates): { distance: number; station: Station }[] {
     return this.stationData.stations.map(item => {
       return {station: item, distance: VicinityComponent.calculateDistance(coords, item)};
@@ -112,6 +95,6 @@ export class VicinityComponent implements OnInit {
   }
 
   selectStation(event: Station) {
-    this.router.navigate(['/station', event.id, event.name]).then(() => {});
+    this.router.navigate(['/station', event.id, event.name]).then(() => { /* empty */ });
   }
 }
