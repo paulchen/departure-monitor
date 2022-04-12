@@ -22,7 +22,7 @@ cd "$BASE_DIR"
 git pull || exit 1
 
 npm install || exit 1
-npm run build -- --configuration production --aot --base-href="$BASE_HREF" || exit 1
+npm run build -- --configuration production --aot || exit 1
 
 docker build -t departure-monitor:latest . || exit 1
 
