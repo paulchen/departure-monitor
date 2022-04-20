@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { Router} from '@angular/router';
 import {Station, StationData} from '../main/station';
 import {DataService} from '../data.service';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-search',
@@ -21,7 +22,7 @@ export class SearchComponent implements OnInit {
   constructor(private dataService: DataService, private router: Router) { }
 
   ngOnInit(): void {
-    if (localStorage.getItem('save_history') === 'true') {
+    if (localStorage.getItem(environment.localStoragePrefix + 'save_history') === 'true') {
       this.saveHistory = true;
     }
 
@@ -30,7 +31,7 @@ export class SearchComponent implements OnInit {
       this.loading = false;
 
       if (this.saveHistory) {
-        const stationHistory = localStorage.getItem('station_history');
+        const stationHistory = localStorage.getItem(environment.localStoragePrefix + 'station_history');
         if (stationHistory !== null) {
           this.mostRecentStations = stationHistory
             .split(',')
@@ -52,11 +53,11 @@ export class SearchComponent implements OnInit {
   useGeolocation() {
     this.loadingLocation = true;
     this.locationError = false;
-    navigator.geolocation.getCurrentPosition(position => {
+    navigator.geolocation.getCurrentPosition(position => { //NOSONAR
       this.loadingLocation = false;
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
-      this.router.navigate(['/vicinity', lat, lon]).then(() => {});
+      this.router.navigate(['/vicinity', lat, lon]).then(() => { /* do nothing */ });
     }, () => {
       this.loadingLocation = false;
       this.locationError = true;
@@ -67,15 +68,16 @@ export class SearchComponent implements OnInit {
   }
 
   selectStation(event: Station) {
-    this.router.navigate(['/station', event.id, event.name]).then(() => {});
+    this.router.navigate(['/station', event.id, event.name]).then(() => { /* empty */ });
   }
 
   updateHistorySetting(event) {
     if (event.checked) {
-      localStorage.setItem('save_history', 'true')
+      localStorage.setItem(environment.localStoragePrefix + 'save_history', 'true')
     }
     else {
-      localStorage.clear();
+      localStorage.removeItem(environment.localStoragePrefix + 'save_history');
+      localStorage.removeItem(environment.localStoragePrefix + 'station_history');
       this.mostRecentStations = [];
     }
   }

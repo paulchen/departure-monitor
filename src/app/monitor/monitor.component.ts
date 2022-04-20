@@ -4,6 +4,7 @@ import { Departure } from '../departure';
 import {StationDetails} from '../station-details';
 import {Platform} from '../platform';
 import {ActivatedRoute, Router} from '@angular/router';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-monitor',
@@ -46,10 +47,9 @@ export class MonitorComponent implements OnInit {
         let add = true;
         result.forEach((existingDeparture) => {
           if(departure.line === existingDeparture.line && departure.towards.toLowerCase() === existingDeparture.towards.toLowerCase()) {
-            if(!departure.barrier_free || existingDeparture.barrier_free) {
-              add = false;
-            }
-            else if (parseInt(departure.time, 10) > 30) {
+            if(!departure.barrier_free ||
+                existingDeparture.barrier_free ||
+                parseInt(departure.time, 10) > 30) {
               add = false;
             }
           }
@@ -72,7 +72,7 @@ export class MonitorComponent implements OnInit {
       this.rblService.getStationDetails(params.id).subscribe(stationDetails => {
         this.updateHistory(params.id);
         if (stationDetails.name !== stationName) {
-          this.router.navigate(['/notFound']).then(() => {});
+          this.router.navigate(['/notFound']).then(() => { /* empty */ });
         }
 
         this.stationDetails = stationDetails;
@@ -82,12 +82,12 @@ export class MonitorComponent implements OnInit {
   }
 
   private updateHistory(station: number): void {
-    const saveHistory = localStorage.getItem('save_history');
+    const saveHistory = localStorage.getItem(environment.localStoragePrefix + 'save_history');
     if (saveHistory !== 'true') {
       return;
     }
 
-    const oldHistory = localStorage.getItem('station_history');
+    const oldHistory = localStorage.getItem(environment.localStoragePrefix + 'station_history');
     let newHistory;
     if (!oldHistory) {
       newHistory = station;
@@ -102,7 +102,7 @@ export class MonitorComponent implements OnInit {
       history.unshift(station.toString());
       newHistory = history.join(',')
     }
-    localStorage.setItem('station_history', newHistory);
+    localStorage.setItem(environment.localStoragePrefix + 'station_history', newHistory);
   }
 
   updateMonitor(): void {
@@ -141,6 +141,6 @@ export class MonitorComponent implements OnInit {
 
   doReset() {
     this.stationDetails = null;
-    this.router.navigate(['/']).then(() => {});
+    this.router.navigate(['/']).then(() => { /* empty */ });
   }
 }

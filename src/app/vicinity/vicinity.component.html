@@ -6,8 +6,8 @@
     <p-table [value]="nearStations" selectionMode="single" (onRowSelect)="selectStation($event.data)" responsiveLayout="scroll">
       <ng-template pTemplate="header">
         <tr>
-          <th>Name</th>
-          <th>Entfernung</th>
+          <th scope="col">Name</th>
+          <th scope="col">Entfernung</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-station>

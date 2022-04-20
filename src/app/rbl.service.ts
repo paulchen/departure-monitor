@@ -4,27 +4,28 @@ import { Observable } from 'rxjs';
 import { Departure } from './departure';
 import {StationData} from './main/station';
 import {StationDetails} from './station-details';
+import {environment} from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RblService {
-  readonly stationsUrl = 'https://rueckgr.at/wienerlinien/map/stations.php';
-  readonly stationDetailsUrl = 'https://rueckgr.at/wienerlinien/map/platforms.php?id=';
-  readonly departuresUrl = 'https://rueckgr.at/wienerlinien/map/rbls.php?ids=';
+  readonly stationsUrl = 'map/stations.php';
+  readonly stationDetailsUrl = 'map/platforms.php?id=';
+  readonly departuresUrl = 'map/rbls.php?ids=';
 
   constructor(private http: HttpClient) { }
 
   getDepartureData(rbls: number[]): Observable<{ [rbl: string]: Departure[] }> {
     const numberString = rbls.join(',');
-    return this.http.get<{ [rbl: string]: Departure[] }>(this.departuresUrl + numberString);
+    return this.http.get<{ [rbl: string]: Departure[] }>(environment.apiUrl + this.departuresUrl + numberString);
   }
 
   getStations(): Observable<StationData> {
-    return this.http.get<StationData>(this.stationsUrl);
+    return this.http.get<StationData>(environment.apiUrl + this.stationsUrl);
   }
 
   getStationDetails(stationId: number): Observable<StationDetails> {
-    return this.http.get<StationDetails>(this.stationDetailsUrl + stationId);
+    return this.http.get<StationDetails>(environment.apiUrl + this.stationDetailsUrl + stationId);
   }
 }

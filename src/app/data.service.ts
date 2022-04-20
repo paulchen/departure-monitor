@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import {Observable, ReplaySubject} from 'rxjs';
-import { Departure } from './departure';
 import {StationData} from './main/station';
-import {StationDetails} from './station-details';
 import {RblService} from "./rbl.service";
 
 @Injectable({

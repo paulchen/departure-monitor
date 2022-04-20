@@ -24,38 +24,39 @@
     <h4 *ngIf="!compact">Bahnsteig {{platform.platform}}</h4>
 
     <div *ngIf="!loading">
-    <div *ngIf="rblData.hasOwnProperty(platform.rbl);else no_data">
-      <p-table [value]="compact ? rblDataCompact[platform.rbl] : rblData[platform.rbl]" [loading]="loading" responsiveLayout="scroll">
-        <ng-template pTemplate="header">
-          <tr *ngIf="!compact">
-            <th style="width: 15%">Linie</th>
-            <th style="width: 68%">Ziel</th>
-            <th style="width: 17%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden" colspan="2">Minuten</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-departure>
-          <tr>
-            <td style="">{{departure.line}}</td>
-            <td style="width: 100%;">{{departure.towards}}</td>
-            <td style="border-right: none; text-align: center; padding-right: 0;">
-              <div style="width: 2em;">
-                <div *ngIf="departure.folding_ramp">_</div>
-                <div *ngIf="departure.barrier_free && !departure.folding_ramp">♿</div>
-              </div>
-            </td>
-            <td style="border-left: none; padding-left: 0;">
-              <div style="width: 1em;">{{departure.time}}</div>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-      <div *ngIf="compact" style="height: 1em;"></div>
-    </div>
-
-    <ng-template #no_data>
-      <div *ngIf="!compact">
-        Keine Daten vorhanden.
+      <div *ngIf="rblData.hasOwnProperty(platform.rbl);else no_data">
+        <p-table [value]="compact ? rblDataCompact[platform.rbl] : rblData[platform.rbl]" [loading]="loading" responsiveLayout="scroll">
+          <ng-template pTemplate="header">
+            <tr *ngIf="!compact">
+              <th style="width: 15%" scope="col">Linie</th>
+              <th style="width: 68%" scope="col">Ziel</th>
+              <th style="width: 17%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden" colspan="2" scope="col">Minuten</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-departure>
+            <tr>
+              <td>{{departure.line}}</td>
+              <td style="width: 100%;">{{departure.towards}}</td>
+              <td style="border-right: none; text-align: center; padding-right: 0;">
+                <div style="width: 2em;">
+                  <div *ngIf="departure.folding_ramp">_</div>
+                  <div *ngIf="departure.barrier_free && !departure.folding_ramp">♿</div>
+                </div>
+              </td>
+              <td style="border-left: none; padding-left: 0;">
+                <div style="width: 1em;">{{departure.time}}</div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <div *ngIf="compact" style="height: 1em;"></div>
       </div>
-    </ng-template>
+
+      <ng-template #no_data>
+        <div *ngIf="!compact">
+          Keine Daten vorhanden.
+        </div>
+      </ng-template>
+    </div>
   </div>
 </div>
