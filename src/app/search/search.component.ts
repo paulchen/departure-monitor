@@ -37,7 +37,8 @@ export class SearchComponent implements OnInit {
             .split(',')
             .map(id => {
               return this.stationData.stations.find(station => station.id.toString() === id);
-            });
+            })
+            .filter(station => station !== undefined);
         }
       }
     });
