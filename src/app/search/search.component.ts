@@ -45,9 +45,28 @@ export class SearchComponent implements OnInit {
   }
 
   search(event: any) {
+    let input = event.query.toLowerCase();
     this.results = this.stationData.stations
-      .filter(station => station.name.toLowerCase().indexOf(event.query.toLowerCase()) !== -1)
-      .sort((a, b) => b.line_count - a.line_count);
+      .filter(station => station.name.toLowerCase().indexOf(input) !== -1)
+      .sort(function(a, b) {
+        let line_difference = b.line_count - a.line_count;
+        if (line_difference != 0) {
+          return line_difference;
+        }
+
+        let startsWithInputA = a.name.toLowerCase().startsWith(input);
+        let startsWithInputB = b.name.toLowerCase().startsWith(input);
+
+        if (startsWithInputA && !startsWithInputB) {
+          return -1;
+        }
+
+        if (!startsWithInputA && startsWithInputB) {
+          return 1;
+        }
+
+        return a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+      });
   }
 
   useGeolocation() {
