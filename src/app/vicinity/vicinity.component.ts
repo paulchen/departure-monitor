@@ -45,6 +45,40 @@ export class VicinityComponent implements OnInit {
     return deg * (Math.PI / 180);
   }
 
+  private static rad2deg(rad) {
+    return rad * 180 / Math.PI;
+  }
+
+  private static bearing(lat1, lon1, lat2, lon2) {
+    // https://stackoverflow.com/questions/46590154/calculate-bearing-between-2-points-with-javascript
+    let startLat = VicinityComponent.deg2rad(lat1);
+    let startLng = VicinityComponent.deg2rad(lon1);
+    let destLat = VicinityComponent.deg2rad(lat2);
+    let destLng = VicinityComponent.deg2rad(lon2);
+
+    let y = Math.sin(destLng - startLng) * Math.cos(destLat);
+    let x = Math.cos(startLat) * Math.sin(destLat) - Math.sin(startLat) * Math.cos(destLat) * Math.cos(destLng - startLng);
+    let bearing = VicinityComponent.rad2deg(Math.atan2(y, x));
+    return (bearing + 360) % 360;
+  }
+
+  private static simpleBearing(lat1, lon1, lat2, lon2) {
+    let bearing = this.bearing(lat1, lon1, lat2, lon2);
+
+    // https://stackoverflow.com/questions/5619832/switch-on-ranges-of-integers-in-javascript
+    switch (true) {
+      case (bearing < 23): return 'N';
+      case (bearing < 68): return 'NO';
+      case (bearing < 113): return 'O';
+      case (bearing < 158): return 'SO';
+      case (bearing < 203): return 'S';
+      case (bearing < 248): return 'SW';
+      case (bearing < 293): return 'W';
+      case (bearing < 338): return 'NW';
+      default: return 'N';
+    }
+  }
+
   ngOnInit(): void {
     const component = this;
     this.dataService.getStations().subscribe(stationData => {
@@ -79,9 +113,24 @@ export class VicinityComponent implements OnInit {
   }
 
   findStations(coords: GeolocationCoordinates): { distance: number; station: Station }[] {
-    return this.stationData.stations.map(item => {
-      return {station: item, distance: VicinityComponent.calculateDistance(coords, item)};
-    }).sort(this.compare).slice(0, 10);
+    return this
+      .stationData
+      .stations
+      .map(item => {
+        return {
+          station: item,
+          distance: VicinityComponent.calculateDistance(coords, item)
+        };
+      })
+      .sort(this.compare)
+      .slice(0, 10)
+      .map(item => {
+        return {
+          station: item.station,
+          distance: item.distance,
+          direction: VicinityComponent.simpleBearing(coords.latitude, coords.longitude, item.station.lat, item.station.lon)
+        };
+      });
   }
 
   compare(a, b) {

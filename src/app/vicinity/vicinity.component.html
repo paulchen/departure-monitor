@@ -18,7 +18,8 @@
               {{line.name}}
             </span>
           </td>
-          <td>{{station.distance | number:'1.0-2'}} km</td>
+          <td *ngIf="station.distance >= 1">{{station.distance | number:'1.0-2'}} km {{station.direction}}</td>
+          <td *ngIf="station.distance < 1">{{station.distance * 1000 | number:'1.0-0'}} m {{station.direction}}</td>
         </tr>
       </ng-template>
     </p-table>
