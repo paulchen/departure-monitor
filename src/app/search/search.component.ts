@@ -69,14 +69,19 @@ export class SearchComponent implements OnInit {
       });
   }
 
-  useGeolocation() {
+  useGeolocation(reload: boolean = false, router: Router = this.router) {
     this.loadingLocation = true;
     this.locationError = false;
     navigator.geolocation.getCurrentPosition(position => { //NOSONAR
-      this.loadingLocation = false;
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
-      this.router.navigate(['/vicinity', lat, lon]).then(() => { /* do nothing */ });
+      if(!reload) {
+        window.setTimeout(this.useGeolocation, 1000, true, this.router);
+      }
+      else {
+        this.loadingLocation = false;
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        router.navigate(['/vicinity', lat, lon]).then(() => { /* do nothing */ });
+      }
     }, () => {
       this.loadingLocation = false;
       this.locationError = true;
