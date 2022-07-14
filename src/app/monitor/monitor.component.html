@@ -21,6 +21,18 @@
   <div *ngFor="let platform of stationDetails.platforms">
     <h3 *ngIf="(!compact && platform.showLines) || (compact && platform.showLinesCompact)">{{platform.line_names.join(', ')}}</h3>
 
+    <div *ngIf="((!compact && platform.showLines) || (compact && platform.showLinesCompact)) && platform.messages.length > 0" style="padding-bottom: .5em;">
+      <p-inplace>
+        <ng-template pTemplate="display">
+          <p-tag *ngIf="platform.messages.length == 1" value="Eine Verkehrsmeldung" severity="warning" icon="pi pi-exclamation-triangle"></p-tag>
+          <p-tag *ngIf="platform.messages.length > 1" value="{{platform.messages.length}} Verkehrsmeldungen" severity="warning" icon="pi pi-exclamation-triangle"></p-tag>
+        </ng-template>
+        <ng-template pTemplate="content">
+          <p-messages [(value)]="platform.messages"></p-messages>
+        </ng-template>
+      </p-inplace>
+    </div>
+
     <h4 *ngIf="!compact">Bahnsteig {{platform.platform}}</h4>
 
     <div *ngIf="!loading">

@@ -4,7 +4,8 @@ import { Observable } from 'rxjs';
 import { Departure } from './departure';
 import {StationData} from './main/station';
 import {StationDetails} from './station-details';
-import {environment} from "../environments/environment";
+import {environment} from '../environments/environment';
+import {Disruptions} from './traffic-info';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class RblService {
   readonly stationsUrl = 'map/stations.php';
   readonly stationDetailsUrl = 'map/platforms.php?id=';
   readonly departuresUrl = 'map/rbls.php?ids=';
+  readonly disruptionsUrl = 'map/disruptions.php?id='
 
   constructor(private http: HttpClient) { }
 
@@ -27,5 +29,9 @@ export class RblService {
 
   getStationDetails(stationId: number): Observable<StationDetails> {
     return this.http.get<StationDetails>(environment.apiUrl + this.stationDetailsUrl + stationId);
+  }
+
+  getDisruptions(stationId: number): Observable<Disruptions> {
+    return this.http.get<Disruptions>(environment.apiUrl + this.disruptionsUrl + stationId);
   }
 }

@@ -1,3 +1,5 @@
+import {TrafficInfo} from './traffic-info';
+
 export class Platform {
   rbl: number;
   platform: string;
@@ -5,4 +7,6 @@ export class Platform {
   line_ids: string[];
   showLines: boolean;
   showLinesCompact: boolean;
+  trafficInfos: TrafficInfo[];
+  messages = [];
 }

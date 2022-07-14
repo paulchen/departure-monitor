@@ -17,6 +17,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import {VicinityComponent} from './vicinity/vicinity.component';
 import {SearchComponent} from './search/search.component';
 import {CheckboxModule} from 'primeng/checkbox';
+import {InplaceModule} from 'primeng/inplace';
+import {TagModule} from 'primeng/tag';
+import {MessagesModule} from 'primeng/messages';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,10 @@ import {CheckboxModule} from 'primeng/checkbox';
     ButtonModule,
     ProgressSpinnerModule,
     InputSwitchModule,
-    CheckboxModule
+    CheckboxModule,
+    InplaceModule,
+    TagModule,
+    MessagesModule
   ],
   providers: [],
   bootstrap: [AppComponent]

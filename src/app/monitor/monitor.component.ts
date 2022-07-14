@@ -5,6 +5,7 @@ import {StationDetails} from '../station-details';
 import {Platform} from '../platform';
 import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from '../../environments/environment';
+import {Disruptions, TrafficInfo} from '../traffic-info';
 
 @Component({
   selector: 'app-monitor',
@@ -12,6 +13,7 @@ import {environment} from '../../environments/environment';
   styleUrls: ['./monitor.component.css']
 })
 export class MonitorComponent implements OnInit {
+  stationId: number;
   stationDetails: StationDetails;
   rblData: { [rbl: string]: Departure[] } = {};
   rblDataCompact: { [rbl: string]: Departure[] } = {};
@@ -69,6 +71,7 @@ export class MonitorComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const stationName = params.name;
+      this.stationId = params.id;
       this.rblService.getStationDetails(params.id).subscribe(stationDetails => {
         this.updateHistory(params.id);
         if (stationDetails.name !== stationName) {
@@ -116,27 +119,59 @@ export class MonitorComponent implements OnInit {
 
     const rbls = this.stationDetails.platforms.filter(platform => platform.rbl != null).map(platform => platform.rbl);
     this.loading = true;
-    this.rblService.getDepartureData(rbls).subscribe(data => {
-      this.loading = false;
-      this.rblData = data;
-      this.rblDataCompact = MonitorComponent.getCompactRblData(data);
-      this.anyRbl = Object.keys(data).length > 0;
-      this.timeout = setTimeout(() => { this.updateMonitor(); }, 30000);
+    this.rblService.getDepartureData(rbls).subscribe(rblData => {
+      this.rblService.getDisruptions(this.stationId).subscribe(disruptionsData => {
+        this.loading = false;
+        this.rblData = rblData;
+        this.rblDataCompact = MonitorComponent.getCompactRblData(rblData);
+        this.anyRbl = Object.keys(rblData).length > 0;
+        this.timeout = setTimeout(() => { this.updateMonitor(); }, 30000);
 
-      let previousPlatform: Platform;
-      let previousPlatformCompact: Platform;
-      this.stationDetails.platforms.forEach(currentPlatform => {
-        currentPlatform.showLines = !previousPlatform ||
-          JSON.stringify(previousPlatform.line_names) !== JSON.stringify(currentPlatform.line_names);
-        currentPlatform.showLinesCompact = (!previousPlatformCompact ||
-          JSON.stringify(previousPlatformCompact.line_names) !== JSON.stringify(currentPlatform.line_names)) &&
-          this.rblData.hasOwnProperty(currentPlatform.rbl);
-        previousPlatform = currentPlatform;
-        if(this.rblData.hasOwnProperty(currentPlatform.rbl)) {
-          previousPlatformCompact = currentPlatform;
-        }
+        let previousPlatform: Platform;
+        let previousPlatformCompact: Platform;
+        this.stationDetails.platforms.forEach(currentPlatform => {
+          currentPlatform.trafficInfos = this.findTrafficInfos(currentPlatform, disruptionsData);
+          currentPlatform.showLines = !previousPlatform ||
+            JSON.stringify(previousPlatform.line_names) !== JSON.stringify(currentPlatform.line_names);
+          currentPlatform.showLinesCompact = (!previousPlatformCompact ||
+              JSON.stringify(previousPlatformCompact.line_names) !== JSON.stringify(currentPlatform.line_names)) &&
+            this.rblData.hasOwnProperty(currentPlatform.rbl);
+          previousPlatform = currentPlatform;
+          if (this.rblData.hasOwnProperty(currentPlatform.rbl)) {
+            previousPlatformCompact = currentPlatform;
+          }
+        });
+
+        this.stationDetails.platforms.forEach(currentPlatform => {
+          currentPlatform.messages = [];
+          currentPlatform.trafficInfos.forEach(trafficInfo => {
+            const element = {severity: 'warn', summary: trafficInfo.title, detail: trafficInfo.description};
+            if (currentPlatform.messages.findIndex(item => JSON.stringify(item) === JSON.stringify(element)) === -1) {
+              currentPlatform.messages.push(element);
+            }
+          });
+        });
       });
     });
+  }
+
+  private findTrafficInfos(currentPlatform: Platform, disruptionsData: Disruptions): TrafficInfo[] {
+    const trafficInfos = [];
+    for (const line of Object.keys(disruptionsData.lines)) {
+      if (currentPlatform.line_names.includes(line)) {
+        disruptionsData.lines[line].forEach(item => { trafficInfos.push(item)} );
+      }
+    }
+    for (const platform of this.stationDetails.platforms) {
+      if (JSON.stringify(platform.line_names) === JSON.stringify(currentPlatform.line_names)) {
+        for (const rbl of Object.keys(disruptionsData.rbls)) {
+          if (Number(platform.rbl) === Number(rbl)) {
+            disruptionsData.rbls[rbl].forEach(item => { trafficInfos.push(item) });
+          }
+        }
+      }
+    }
+    return trafficInfos;
   }
 
   doReset() {
