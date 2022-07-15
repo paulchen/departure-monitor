@@ -4,7 +4,7 @@ import { Departure } from '../departure';
 import {StationDetails} from '../station-details';
 import {Platform} from '../platform';
 import {ActivatedRoute, Router} from '@angular/router';
-import {environment} from '../../environments/environment';
+import {LocalStorageService} from "../local-storage.service";
 import {Disruptions, TrafficInfo} from '../traffic-info';
 
 @Component({
@@ -22,7 +22,7 @@ export class MonitorComponent implements OnInit {
   timeout;
   anyRbl: boolean;
 
-  constructor(private rblService: RblService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private rblService: RblService, private route: ActivatedRoute, private router: Router, private localStorageService: LocalStorageService) { }
 
   private static getCompactRblData(rblData: { [rbl: string]: Departure[] }): { [rbl: string]: Departure[] } {
     const result: { [rbl: string]: Departure[] } = {};
@@ -73,7 +73,7 @@ export class MonitorComponent implements OnInit {
       const stationName = params.name;
       this.stationId = params.id;
       this.rblService.getStationDetails(params.id).subscribe(stationDetails => {
-        this.updateHistory(params.id);
+        this.localStorageService.updateHistory(params.id);
         if (stationDetails.name !== stationName) {
           this.router.navigate(['/notFound']).then(() => { /* empty */ });
         }
@@ -82,30 +82,6 @@ export class MonitorComponent implements OnInit {
         this.updateMonitor();
       });
     });
-  }
-
-  private updateHistory(station: number): void {
-    const saveHistory = localStorage.getItem(environment.localStoragePrefix + 'save_history');
-    if (saveHistory !== 'true') {
-      return;
-    }
-
-    const oldHistory = localStorage.getItem(environment.localStoragePrefix + 'station_history');
-    let newHistory;
-    if (!oldHistory) {
-      newHistory = station;
-    }
-    else {
-      const history = oldHistory
-        .split(',')
-        .filter((item: string) => {
-          return item !== station.toString();
-        })
-        .slice(0, 9);
-      history.unshift(station.toString());
-      newHistory = history.join(',')
-    }
-    localStorage.setItem(environment.localStoragePrefix + 'station_history', newHistory);
   }
 
   updateMonitor(): void {

@@ -3,6 +3,7 @@ import { Router} from '@angular/router';
 import {Station, StationData} from '../main/station';
 import {DataService} from '../data.service';
 import {environment} from '../../environments/environment';
+import {LocalStorageService} from "../local-storage.service";
 
 @Component({
   selector: 'app-search',
@@ -19,28 +20,15 @@ export class SearchComponent implements OnInit {
   mostRecentStations: Station[] = [];
   saveHistory = false;
 
-  constructor(private dataService: DataService, private router: Router) { }
+  constructor(private dataService: DataService, private router: Router, private localStorageService: LocalStorageService) { }
 
   ngOnInit(): void {
-    if (localStorage.getItem(environment.localStoragePrefix + 'save_history') === 'true') {
-      this.saveHistory = true;
-    }
+    this.saveHistory = this.localStorageService.isHistoryEnabled();
 
     this.dataService.getStations().subscribe(stationData => {
       this.stationData = stationData;
       this.loading = false;
-
-      if (this.saveHistory) {
-        const stationHistory = localStorage.getItem(environment.localStoragePrefix + 'station_history');
-        if (stationHistory !== null) {
-          this.mostRecentStations = stationHistory
-            .split(',')
-            .map(id => {
-              return this.stationData.stations.find(station => station.id.toString() === id);
-            })
-            .filter(station => station !== undefined);
-        }
-      }
+      this.mostRecentStations = this.localStorageService.getHistory(stationData);
     });
   }
 
@@ -97,11 +85,10 @@ export class SearchComponent implements OnInit {
 
   updateHistorySetting(event) {
     if (event.checked) {
-      localStorage.setItem(environment.localStoragePrefix + 'save_history', 'true')
+      this.localStorageService.enableHistory();
     }
     else {
-      localStorage.removeItem(environment.localStoragePrefix + 'save_history');
-      localStorage.removeItem(environment.localStoragePrefix + 'station_history');
+      this.localStorageService.disableHistory();
       this.mostRecentStations = [];
     }
   }
