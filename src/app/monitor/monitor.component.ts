@@ -123,7 +123,9 @@ export class MonitorComponent implements OnInit {
           currentPlatform.trafficInfos.forEach(trafficInfo => {
             const summary = trafficInfo.category == 1 ? 'Aufzug außer Betrieb' : trafficInfo.title;
             const element = {severity: 'warn', summary: summary, detail: trafficInfo.description};
-            if (currentPlatform.messages.findIndex(item => JSON.stringify(item) === JSON.stringify(element)) === -1) {
+            const now = new Date();
+            if (currentPlatform.messages.findIndex(item => JSON.stringify(item) === JSON.stringify(element)) === -1 &&
+              new Date(trafficInfo.start_time) <= now && new Date(trafficInfo.end_time) >= now) {
               currentPlatform.messages.push(element);
             }
           });
