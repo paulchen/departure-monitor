@@ -111,9 +111,9 @@ export class MonitorComponent implements OnInit {
             JSON.stringify(previousPlatform.line_names) !== JSON.stringify(currentPlatform.line_names);
           currentPlatform.showLinesCompact = (!previousPlatformCompact ||
               JSON.stringify(previousPlatformCompact.line_names) !== JSON.stringify(currentPlatform.line_names)) &&
-            this.rblData.hasOwnProperty(currentPlatform.rbl);
+            (this.rblData.hasOwnProperty(currentPlatform.rbl) || currentPlatform.trafficInfos.length > 0);
           previousPlatform = currentPlatform;
-          if (this.rblData.hasOwnProperty(currentPlatform.rbl)) {
+          if (this.rblData.hasOwnProperty(currentPlatform.rbl) || currentPlatform.trafficInfos.length > 0) {
             previousPlatformCompact = currentPlatform;
           }
         });
