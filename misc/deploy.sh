@@ -26,5 +26,7 @@ npm run build -- --configuration production --aot || exit 1
 
 docker build -t departure-monitor:latest . || exit 1
 
-sudo systemctl restart "$SYSTEMD_UNIT" || exit 1
+if [ "$1" != "--no-systemd" ]; then
+	sudo systemctl restart "$SYSTEMD_UNIT" || exit 1
+fi
 
