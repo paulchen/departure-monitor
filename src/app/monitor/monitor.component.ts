@@ -121,7 +121,8 @@ export class MonitorComponent implements OnInit {
         this.stationDetails.platforms.forEach(currentPlatform => {
           currentPlatform.messages = [];
           currentPlatform.trafficInfos.forEach(trafficInfo => {
-            const element = {severity: 'warn', summary: trafficInfo.title, detail: trafficInfo.description};
+            const summary = trafficInfo.category == 1 ? 'Aufzug außer Betrieb' : trafficInfo.title;
+            const element = {severity: 'warn', summary: summary, detail: trafficInfo.description};
             if (currentPlatform.messages.findIndex(item => JSON.stringify(item) === JSON.stringify(element)) === -1) {
               currentPlatform.messages.push(element);
             }

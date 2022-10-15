@@ -1,6 +1,7 @@
 export class TrafficInfo {
   rbl?: number;
   line?: string;
+  category?: number;
   title: string;
   description: string;
   start_time?: Date;
