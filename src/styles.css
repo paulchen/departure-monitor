@@ -22,3 +22,15 @@ div.footer {
 .p-datatable table {
   table-layout: auto !important;
 }
+
+div.p-message-wrapper {
+  flex-wrap: wrap;
+}
+
+div.p-message-wrapper span.p-message-summary {
+  margin-right: .5rem;
+}
+
+div.p-message-wrapper span.p-message-detail {
+  margin-left: 0;
+}
