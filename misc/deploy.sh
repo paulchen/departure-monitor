@@ -15,7 +15,7 @@ fi
 docker pull nginx:latest || exit 1
 
 . ~/.nvm/nvm.sh || exit 1
-nvm install lts/gallium || exit 1
+nvm install lts/hydrogen || exit 1
 
 cd "$BASE_DIR"
 
