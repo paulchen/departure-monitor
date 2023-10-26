@@ -121,8 +121,8 @@
               "**/node_modules/**"
             ]
           }
-        },
+        }
       }
-    }},
-  "defaultProject": "departure-monitor"
+    }
+  }
 }
