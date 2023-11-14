@@ -24,9 +24,11 @@ git pull || exit 1
 npm install || exit 1
 npm run build -- --configuration production --aot || exit 1
 
-docker build -t departure-monitor:latest . || exit 1
 
-if [ "$1" != "--no-systemd" ]; then
+if [ "$1" == "--full-rebuild" ]; then
+	docker build . -t departure-monitor:latest --no-cache || exit 1
+else
+	docker build . -t departure-monitor:latest || exit 1
 	sudo systemctl restart "$SYSTEMD_UNIT" || exit 1
 fi
 
