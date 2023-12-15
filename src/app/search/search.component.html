@@ -1,7 +1,7 @@
 <div *ngIf="!loading">
   Haltestelle:
 
-  <p-autoComplete [(ngModel)]="selectedStation" [suggestions]="results" (completeMethod)="search($event)" field="name" [forceSelection]="true" (onSelect)="selectStation($event)"></p-autoComplete>
+  <p-autoComplete [(ngModel)]="selectedStation" [suggestions]="results" (completeMethod)="search($event)" optionLabel="name" [forceSelection]="true" (onSelect)="selectStation($event.value)"></p-autoComplete>
   &nbsp;
   <p-button label="Aktuelle Position" (onClick)="useGeolocation()"></p-button>
 </div>
