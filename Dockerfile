@@ -14,4 +14,6 @@ RUN chown -R myuser /usr/share/nginx/html/assets /usr/share/nginx/html/index.htm
 USER myuser
 EXPOSE 80
 
+HEALTHCHECK --interval=5m --timeout=10s CMD curl http://localhost/ || exit 1
+
 CMD [ "/opt/docker-entrypoint.sh" ]
