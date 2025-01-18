@@ -73,21 +73,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "departure-monitor:build"
+            "buildTarget": "departure-monitor:build"
           },
           "configurations": {
             "development": {
-              "browserTarget": "departure-monitor:build:development"
+              "buildTarget": "departure-monitor:build:development"
             },
             "production": {
-              "browserTarget": "departure-monitor:build:production"
+              "buildTarget": "departure-monitor:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "departure-monitor:build"
+            "buildTarget": "departure-monitor:build"
           }
         },
         "test": {
