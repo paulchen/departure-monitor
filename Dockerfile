@@ -1,5 +1,6 @@
 FROM nginx:latest
 
+RUN apt-get update && apt-get install --no-install-recommends --no-install-suggests -y psmisc
 RUN addgroup --gid 1025 mygroup && adduser --disabled-password --ingroup mygroup --system myuser
 RUN mkdir -p /var/cache/nginx && chown -R myuser /var/cache/nginx
 RUN touch /var/run/nginx.pid && chown myuser /var/run/nginx.pid
@@ -15,5 +16,7 @@ USER myuser
 EXPOSE 80
 
 HEALTHCHECK --interval=5m --timeout=10s CMD curl http://localhost/ || exit 1
+
+STOPSIGNAL SIGTERM
 
 CMD [ "/opt/docker-entrypoint.sh" ]

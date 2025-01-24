@@ -8,4 +8,8 @@ if [ "$BASE_HREF" != "" ]; then
   envsubst < /opt/html/index.template.html > /usr/share/nginx/html/index.html
 fi
 
-nginx -g "daemon off;"
+trap 'killall -SIGTERM nginx' SIGTERM
+
+nginx -g "daemon off;" &
+wait $!
+
