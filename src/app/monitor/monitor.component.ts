@@ -15,6 +15,7 @@ import {Inplace} from 'primeng/inplace';
 import {NgForOf, NgIf} from '@angular/common';
 import {ProgressSpinner} from 'primeng/progressspinner';
 import {TableModule} from 'primeng/table';
+import {Message} from 'primeng/message';
 
 @Component({
   selector: 'app-monitor',
@@ -23,13 +24,13 @@ import {TableModule} from 'primeng/table';
     Button,
     InputSwitch,
     FormsModule,
-    MessagesModule,
     Tag,
     Inplace,
     NgIf,
     ProgressSpinner,
     TableModule,
-    NgForOf
+    NgForOf,
+    Message
   ],
   styleUrls: ['./monitor.component.css']
 })
@@ -143,7 +144,7 @@ export class MonitorComponent implements OnInit {
           currentPlatform.messages = [];
           currentPlatform.trafficInfos.forEach(trafficInfo => {
             const summary = trafficInfo.category == 1 ? 'Aufzug außer Betrieb' : trafficInfo.title;
-            const element = {severity: 'warn', summary: summary, detail: trafficInfo.description};
+            const element = {summary: summary, detail: trafficInfo.description};
             const now = new Date();
             if (currentPlatform.messages.findIndex(item => JSON.stringify(item) === JSON.stringify(element)) === -1 &&
               new Date(trafficInfo.start_time) <= now && new Date(trafficInfo.end_time) >= now) {

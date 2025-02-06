@@ -28,7 +28,9 @@
           <p-tag *ngIf="platform.messages.length > 1" value="{{platform.messages.length}} Verkehrsmeldungen" severity="warn" icon="pi pi-exclamation-triangle"></p-tag>
         </ng-template>
         <ng-template pTemplate="content">
-          <p-messages [(value)]="platform.messages"></p-messages>
+          <p-message *ngFor="let message of platform.messages" severity="warn" closable="true" icon="pi pi-info-circle">
+            <strong>{{message.summary}}</strong> &ndash; {{message.detail}}
+          </p-message>
         </ng-template>
       </p-inplace>
     </div>
