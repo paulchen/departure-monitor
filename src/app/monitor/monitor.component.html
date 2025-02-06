@@ -24,8 +24,8 @@
     <div *ngIf="((!compact && platform.showLines) || (compact && platform.showLinesCompact)) && platform.messages.length > 0" style="padding-bottom: .5em;">
       <p-inplace>
         <ng-template pTemplate="display">
-          <p-tag *ngIf="platform.messages.length == 1" value="Eine Verkehrsmeldung" severity="warning" icon="pi pi-exclamation-triangle"></p-tag>
-          <p-tag *ngIf="platform.messages.length > 1" value="{{platform.messages.length}} Verkehrsmeldungen" severity="warning" icon="pi pi-exclamation-triangle"></p-tag>
+          <p-tag *ngIf="platform.messages.length == 1" value="Eine Verkehrsmeldung" severity="warn" icon="pi pi-exclamation-triangle"></p-tag>
+          <p-tag *ngIf="platform.messages.length > 1" value="{{platform.messages.length}} Verkehrsmeldungen" severity="warn" icon="pi pi-exclamation-triangle"></p-tag>
         </ng-template>
         <ng-template pTemplate="content">
           <p-messages [(value)]="platform.messages"></p-messages>

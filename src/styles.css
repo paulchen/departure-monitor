@@ -34,3 +34,12 @@ div.p-message-wrapper span.p-message-summary {
 div.p-message-wrapper span.p-message-detail {
   margin-left: 0;
 }
+
+.p-datatable-tbody > tr > td {
+  border-width: 1px !important;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+  border-width: 1px !important;
+  background: #f4f4f4;
+}

@@ -2,11 +2,23 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Station, StationData} from '../main/station';
 import {DataService} from '../data.service';
-import {ViewportScroller} from '@angular/common';
+import {DecimalPipe, NgForOf, NgIf, NgStyle, ViewportScroller} from '@angular/common';
+import {SearchComponent} from '../search/search.component';
+import {TableModule} from 'primeng/table';
+import {ProgressSpinner} from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-vicinity',
   templateUrl: './vicinity.component.html',
+  imports: [
+    SearchComponent,
+    TableModule,
+    NgForOf,
+    NgStyle,
+    NgIf,
+    DecimalPipe,
+    ProgressSpinner
+  ],
   styleUrls: ['./vicinity.component.css']
 })
 export class VicinityComponent implements OnInit {
@@ -93,7 +105,10 @@ export class VicinityComponent implements OnInit {
           altitude: 0,
           altitudeAccuracy: 0,
           heading: 0,
-          speed: 0
+          speed: 0,
+          toJSON(): string {
+            return JSON.stringify(this)
+          }
         }
         this.nearStations = this.findStations(coords);
 
