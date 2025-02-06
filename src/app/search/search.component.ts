@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import { Router} from '@angular/router';
 import {Station, StationData} from '../main/station';
 import {DataService} from '../data.service';
-import {environment} from '../../environments/environment';
 import {LocalStorageService} from "../local-storage.service";
 import {AutoComplete} from 'primeng/autocomplete';
 import {NgForOf, NgIf, NgStyle} from '@angular/common';
@@ -36,7 +35,10 @@ export class SearchComponent implements OnInit {
   mostRecentStations: Station[] = [];
   saveHistory = false;
 
-  constructor(private dataService: DataService, private router: Router, private localStorageService: LocalStorageService) { }
+  constructor(
+    private dataService: DataService,
+    private router: Router,
+    private localStorageService: LocalStorageService) { }
 
   ngOnInit(): void {
     this.saveHistory = this.localStorageService.isHistoryEnabled();
@@ -73,22 +75,23 @@ export class SearchComponent implements OnInit {
       });
   }
 
-  useGeolocation(reload: boolean = false, router: Router = this.router) {
+  useGeolocation(reload: boolean = false, searchComponent: SearchComponent = this) {
     this.loadingLocation = true;
     this.locationError = false;
     navigator.geolocation.getCurrentPosition(position => { //NOSONAR
       if(!reload) {
-        window.setTimeout(this.useGeolocation, 1000, true, this.router);
+        window.setTimeout(this.useGeolocation, 1000, true, searchComponent);
       }
       else {
-        this.loadingLocation = false;
+        searchComponent.loadingLocation = false;
+        searchComponent.loading = false;
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
-        router.navigate(['/vicinity', lat, lon]).then(() => { /* do nothing */ });
+        searchComponent.router.navigate(['/vicinity', lat, lon]).then(() => { /* do nothing */ });
       }
     }, () => {
-      this.loadingLocation = false;
-      this.locationError = true;
+      searchComponent.loadingLocation = false;
+      searchComponent.locationError = true;
     }, {
       timeout: 10000,
       maximumAge: 0
