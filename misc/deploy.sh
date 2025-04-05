@@ -15,7 +15,7 @@ fi
 docker pull nginx:latest || exit 1
 
 . ~/.nvm/nvm.sh || exit 1
-nvm install lts/iron || exit 1
+nvm install lts/jod || exit 1
 
 cd "$BASE_DIR"
 
