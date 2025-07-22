@@ -7,22 +7,21 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {LocalStorageService} from "../local-storage.service";
 import {Disruptions, TrafficInfo} from '../traffic-info';
 import {Button} from 'primeng/button';
-import {InputSwitch} from 'primeng/inputswitch';
 import {FormsModule} from '@angular/forms';
-import {MessagesModule} from 'primeng/messages';
 import {Tag} from 'primeng/tag';
 import {Inplace} from 'primeng/inplace';
 import {NgForOf, NgIf} from '@angular/common';
 import {ProgressSpinner} from 'primeng/progressspinner';
 import {TableModule} from 'primeng/table';
 import {Message} from 'primeng/message';
+import {ToggleSwitchModule} from 'primeng/toggleswitch';
 
 @Component({
   selector: 'app-monitor',
   templateUrl: './monitor.component.html',
   imports: [
     Button,
-    InputSwitch,
+    ToggleSwitchModule,
     FormsModule,
     Tag,
     Inplace,
