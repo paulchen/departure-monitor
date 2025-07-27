@@ -4,7 +4,7 @@ import {Station, StationData} from '../main/station';
 import {DataService} from '../data.service';
 import {LocalStorageService} from "../local-storage.service";
 import {AutoComplete} from 'primeng/autocomplete';
-import {NgForOf, NgIf, NgStyle} from '@angular/common';
+import { NgStyle } from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {Button} from 'primeng/button';
 import {Checkbox} from 'primeng/checkbox';
@@ -15,14 +15,12 @@ import {ProgressSpinner} from 'primeng/progressspinner';
   templateUrl: './search.component.html',
   imports: [
     AutoComplete,
-    NgIf,
     FormsModule,
     Button,
     Checkbox,
-    NgForOf,
     NgStyle,
     ProgressSpinner
-  ],
+],
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {

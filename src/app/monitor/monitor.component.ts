@@ -10,7 +10,7 @@ import {Button} from 'primeng/button';
 import {FormsModule} from '@angular/forms';
 import {Tag} from 'primeng/tag';
 import {Inplace} from 'primeng/inplace';
-import {NgForOf, NgIf} from '@angular/common';
+
 import {ProgressSpinner} from 'primeng/progressspinner';
 import {TableModule} from 'primeng/table';
 import {Message} from 'primeng/message';
@@ -25,12 +25,10 @@ import {ToggleSwitchModule} from 'primeng/toggleswitch';
     FormsModule,
     Tag,
     Inplace,
-    NgIf,
     ProgressSpinner,
     TableModule,
-    NgForOf,
     Message
-  ],
+],
   styleUrls: ['./monitor.component.css']
 })
 export class MonitorComponent implements OnInit {

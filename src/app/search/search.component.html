@@ -1,28 +1,37 @@
-<div *ngIf="!loading">
-  Haltestelle:
-
-  <p-autoComplete [(ngModel)]="selectedStation" [suggestions]="results" (completeMethod)="search($event)" optionLabel="name" [forceSelection]="true" (onSelect)="selectStation($event.value)"></p-autoComplete>
-  &nbsp;
-  <p-button label="Aktuelle Position" (onClick)="useGeolocation()"></p-button>
-</div>
+@if (!loading) {
+  <div>
+    Haltestelle:
+    <p-autoComplete [(ngModel)]="selectedStation" [suggestions]="results" (completeMethod)="search($event)" optionLabel="name" [forceSelection]="true" (onSelect)="selectStation($event.value)"></p-autoComplete>
+    &nbsp;
+    <p-button label="Aktuelle Position" (onClick)="useGeolocation()"></p-button>
+  </div>
+}
 
 <div style="padding-top: 1em;">
   <p-checkbox [(ngModel)]="saveHistory" [binary]="true" inputId="saveHistory" (onChange)="updateHistorySetting($event)"></p-checkbox>
   &nbsp;
   <label for="saveHistory">Zuletzt verwendete Haltestellen im Browser speichern</label>
 
-  <div *ngIf="saveHistory" style="line-height: 3em;">
-    <span *ngFor="let station of mostRecentStations">
-      <p-button label="{{station.name}}" (onClick)="selectStation(station)" [ngStyle]="{ 'margin-right': '1em' }"></p-button>
-    </span>
+  @if (saveHistory) {
+    <div style="line-height: 3em;">
+      @for (station of mostRecentStations; track station) {
+        <span>
+          <p-button label="{{station.name}}" (onClick)="selectStation(station)" [ngStyle]="{ 'margin-right': '1em' }"></p-button>
+        </span>
+      }
+    </div>
+  }
+</div>
+
+@if (locationError) {
+  <div [ngStyle]="{ 'margin-top': '1em' }">
+    Die aktuelle Position konnte nicht ermittelt werden.
   </div>
-</div>
+}
 
-<div *ngIf="locationError" [ngStyle]="{ 'margin-top': '1em' }">
-  Die aktuelle Position konnte nicht ermittelt werden.
-</div>
-
-<div *ngIf="loading || loadingLocation">
-  <p-progressSpinner></p-progressSpinner>
-</div>
+@if (loading || loadingLocation) {
+  <div>
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+}
 

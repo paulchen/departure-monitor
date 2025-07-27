@@ -1,39 +1,53 @@
 <app-search></app-search>
 
-<div *ngIf="nearStations != null" id="nearby_stations">
-  <h2>Stationen in der Umgebung</h2>
-  <div *ngIf="nearStations.length">
-    <p-table [value]="nearStations" selectionMode="single" (onRowSelect)="selectStation($event.data)" responsiveLayout="scroll">
-      <ng-template pTemplate="header">
-        <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Entfernung</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-station>
-        <tr [pSelectableRow]="station.station">
-          <td>
-            {{station.station.name}}<br />
-            <span *ngFor="let line of station.station.lines" [ngStyle]="{ 'font-weight': 'bold', 'font-size': '70%', 'color': '#' + (line.color != null ? line.color : line.line_type.color) }">
-              {{line.name}}
-            </span>
-          </td>
-          <td *ngIf="station.distance >= 1">{{station.distance | number:'1.0-2'}} km {{station.direction}}</td>
-          <td *ngIf="station.distance < 1">{{station.distance * 1000 | number:'1.0-0'}} m {{station.direction}}</td>
-        </tr>
-      </ng-template>
-    </p-table>
+@if (nearStations != null) {
+  <div id="nearby_stations">
+    <h2>Stationen in der Umgebung</h2>
+    @if (nearStations.length) {
+      <div>
+        <p-table [value]="nearStations" selectionMode="single" (onRowSelect)="selectStation($event.data)" responsiveLayout="scroll">
+          <ng-template pTemplate="header">
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Entfernung</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-station>
+            <tr [pSelectableRow]="station.station">
+              <td>
+                {{station.station.name}}<br />
+                @for (line of station.station.lines; track line) {
+                  <span [ngStyle]="{ 'font-weight': 'bold', 'font-size': '70%', 'color': '#' + (line.color != null ? line.color : line.line_type.color) }">
+                    {{line.name}}
+                  </span>
+                }
+              </td>
+              @if (station.distance >= 1) {
+                <td>{{station.distance | number:'1.0-2'}} km {{station.direction}}</td>
+              }
+              @if (station.distance < 1) {
+                <td>{{station.distance * 1000 | number:'1.0-0'}} m {{station.direction}}</td>
+              }
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    }
+    @if (!nearStations.length && !locationError) {
+      <div>
+        Es konnten keine Stationen in der Umgebung gefunden werden.
+      </div>
+    }
+    @if (locationError) {
+      <div>
+        Die aktuelle Position konnte nicht ermittelt werden.
+      </div>
+    }
   </div>
+}
 
-  <div *ngIf="!nearStations.length && !locationError">
-    Es konnten keine Stationen in der Umgebung gefunden werden.
+@if (loading || loadingLocation) {
+  <div>
+    <p-progressSpinner></p-progressSpinner>
   </div>
-
-  <div *ngIf="locationError">
-    Die aktuelle Position konnte nicht ermittelt werden.
-  </div>
-</div>
-
-<div *ngIf="loading || loadingLocation">
-  <p-progressSpinner></p-progressSpinner>
-</div>
+}

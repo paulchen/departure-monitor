@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Station, StationData} from '../main/station';
 import {DataService} from '../data.service';
-import {DecimalPipe, NgForOf, NgIf, NgStyle, ViewportScroller} from '@angular/common';
+import { DecimalPipe, NgStyle, ViewportScroller } from '@angular/common';
 import {SearchComponent} from '../search/search.component';
 import {TableModule} from 'primeng/table';
 import {ProgressSpinner} from 'primeng/progressspinner';
@@ -13,12 +13,10 @@ import {ProgressSpinner} from 'primeng/progressspinner';
   imports: [
     SearchComponent,
     TableModule,
-    NgForOf,
     NgStyle,
-    NgIf,
     DecimalPipe,
     ProgressSpinner
-  ],
+],
   styleUrls: ['./vicinity.component.css']
 })
 export class VicinityComponent implements OnInit {

@@ -1,76 +1,102 @@
-<div *ngIf="stationDetails == null">
-  <p-progressSpinner></p-progressSpinner>
-</div>
-
-<div *ngIf="stationDetails != null">
-  <h2>{{stationDetails.name}}</h2>
+@if (stationDetails == null) {
   <div>
-    <p-button label="Aktualisieren" (onClick)="updateMonitor()"></p-button>
-    &nbsp;
-    <p-button label="Andere Haltestelle" (onClick)="doReset()"></p-button>
+    <p-progressSpinner></p-progressSpinner>
   </div>
+}
 
-  <div style="vertical-align: bottom; margin-top: 1em">
-    <p-toggleswitch [(ngModel)]="compact"></p-toggleswitch>&nbsp;kompakt
-  </div>
-
-  <div *ngIf="compact && !anyRbl && !loading" style="padding-top: 1em;">
-    Leider sind für diese Haltestelle keine Echtzeitdaten vorhanden.
-  </div>
-
-  <div *ngFor="let platform of stationDetails.platforms">
-    <h3 *ngIf="(!compact && platform.showLines) || (compact && platform.showLinesCompact)">{{platform.line_names.join(', ')}}</h3>
-
-    <div *ngIf="((!compact && platform.showLines) || (compact && platform.showLinesCompact)) && platform.messages.length > 0" style="padding-bottom: .5em;">
-      <p-inplace>
-        <ng-template pTemplate="display">
-          <p-tag *ngIf="platform.messages.length == 1" value="Eine Verkehrsmeldung" severity="warn" icon="pi pi-exclamation-triangle"></p-tag>
-          <p-tag *ngIf="platform.messages.length > 1" value="{{platform.messages.length}} Verkehrsmeldungen" severity="warn" icon="pi pi-exclamation-triangle"></p-tag>
-        </ng-template>
-        <ng-template pTemplate="content">
-          <p-message *ngFor="let message of platform.messages" severity="warn" closable="true" icon="pi pi-info-circle">
-            <strong>{{message.summary}}</strong> &ndash; {{message.detail}}
-          </p-message>
-        </ng-template>
-      </p-inplace>
+@if (stationDetails != null) {
+  <div>
+    <h2>{{stationDetails.name}}</h2>
+    <div>
+      <p-button label="Aktualisieren" (onClick)="updateMonitor()"></p-button>
+      &nbsp;
+      <p-button label="Andere Haltestelle" (onClick)="doReset()"></p-button>
     </div>
-
-    <h4 *ngIf="!compact">Bahnsteig {{platform.platform}}</h4>
-
-    <div *ngIf="!loading">
-      <div *ngIf="rblData.hasOwnProperty(platform.rbl);else no_data">
-        <p-table [value]="compact ? rblDataCompact[platform.rbl] : rblData[platform.rbl]" [loading]="loading" responsiveLayout="scroll">
-          <ng-template pTemplate="header">
-            <tr *ngIf="!compact">
-              <th style="width: 15%" scope="col">Linie</th>
-              <th style="width: 68%" scope="col">Ziel</th>
-              <th style="width: 17%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden" colspan="2" scope="col">Minuten</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-departure>
-            <tr>
-              <td>{{departure.line}}</td>
-              <td style="width: 100%;">{{departure.towards}}</td>
-              <td style="border-right: none; text-align: center; padding-right: 0;">
-                <div style="width: 2em;">
-                  <div *ngIf="departure.folding_ramp">_</div>
-                  <div *ngIf="departure.barrier_free && !departure.folding_ramp">♿</div>
-                </div>
-              </td>
-              <td style="border-left: none; padding-left: 0;">
-                <div style="width: 1em;">{{departure.time}}</div>
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
-        <div *ngIf="compact" style="height: 1em;"></div>
+    <div style="vertical-align: bottom; margin-top: 1em">
+      <p-toggleswitch [(ngModel)]="compact"></p-toggleswitch>&nbsp;kompakt
+    </div>
+    @if (compact && !anyRbl && !loading) {
+      <div style="padding-top: 1em;">
+        Leider sind für diese Haltestelle keine Echtzeitdaten vorhanden.
       </div>
-
-      <ng-template #no_data>
-        <div *ngIf="!compact">
-          Keine Daten vorhanden.
-        </div>
-      </ng-template>
-    </div>
+    }
+    @for (platform of stationDetails.platforms; track platform) {
+      <div>
+        @if ((!compact && platform.showLines) || (compact && platform.showLinesCompact)) {
+          <h3>{{platform.line_names.join(', ')}}</h3>
+        }
+        @if (((!compact && platform.showLines) || (compact && platform.showLinesCompact)) && platform.messages.length > 0) {
+          <div style="padding-bottom: .5em;">
+            <p-inplace>
+              <ng-template pTemplate="display">
+                @if (platform.messages.length == 1) {
+                  <p-tag value="Eine Verkehrsmeldung" severity="warn" icon="pi pi-exclamation-triangle"></p-tag>
+                }
+                @if (platform.messages.length > 1) {
+                  <p-tag value="{{platform.messages.length}} Verkehrsmeldungen" severity="warn" icon="pi pi-exclamation-triangle"></p-tag>
+                }
+              </ng-template>
+              <ng-template pTemplate="content">
+                @for (message of platform.messages; track message) {
+                  <p-message severity="warn" closable="true" icon="pi pi-info-circle">
+                    <strong>{{message.summary}}</strong> &ndash; {{message.detail}}
+                  </p-message>
+                }
+              </ng-template>
+            </p-inplace>
+          </div>
+        }
+        @if (!compact) {
+          <h4>Bahnsteig {{platform.platform}}</h4>
+        }
+        @if (!loading) {
+          <div>
+            @if (rblData.hasOwnProperty(platform.rbl)) {
+              <div>
+                <p-table [value]="compact ? rblDataCompact[platform.rbl] : rblData[platform.rbl]" [loading]="loading" responsiveLayout="scroll">
+                  <ng-template pTemplate="header">
+                    @if (!compact) {
+                      <tr>
+                        <th style="width: 15%" scope="col">Linie</th>
+                        <th style="width: 68%" scope="col">Ziel</th>
+                        <th style="width: 17%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden" colspan="2" scope="col">Minuten</th>
+                      </tr>
+                    }
+                  </ng-template>
+                  <ng-template pTemplate="body" let-departure>
+                    <tr>
+                      <td>{{departure.line}}</td>
+                      <td style="width: 100%;">{{departure.towards}}</td>
+                      <td style="border-right: none; text-align: center; padding-right: 0;">
+                        <div style="width: 2em;">
+                          @if (departure.folding_ramp) {
+                            <div>_</div>
+                          }
+                          @if (departure.barrier_free && !departure.folding_ramp) {
+                            <div>♿</div>
+                          }
+                        </div>
+                      </td>
+                      <td style="border-left: none; padding-left: 0;">
+                        <div style="width: 1em;">{{departure.time}}</div>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+                @if (compact) {
+                  <div style="height: 1em;"></div>
+                }
+              </div>
+            } @else {
+              @if (!compact) {
+                <div>
+                  Keine Daten vorhanden.
+                </div>
+              }
+            }
+          </div>
+        }
+      </div>
+    }
   </div>
-</div>
+}
