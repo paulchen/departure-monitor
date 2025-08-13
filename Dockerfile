@@ -1,7 +1,7 @@
 FROM nginx:latest
 
 RUN apt-get update && \
-    apt-get install --no-install-recommends --no-install-suggests -y psmisc \
+    apt-get install --no-install-recommends --no-install-suggests -y psmisc && \
     rm -rf /var/lib/apt/lists/*
 RUN addgroup --gid 1025 mygroup && adduser --disabled-password --ingroup mygroup --system myuser
 RUN mkdir -p /var/cache/nginx && chown -R myuser /var/cache/nginx
