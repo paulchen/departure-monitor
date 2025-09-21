@@ -2,7 +2,7 @@
 Dockerfile
 node_modules
 README.md
-.odea
+.idea
 .editorconfig
 .gitignore
 dist
