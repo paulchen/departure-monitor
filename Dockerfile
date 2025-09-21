@@ -2,7 +2,7 @@ FROM node:22 AS node
 
 COPY . /opt/app
 WORKDIR /opt/app
-RUN ls /opt/app && npm install && npm run build -- --configuration production --aot
+RUN npm install && npm run build -- --configuration production --aot
 
 FROM nginx:latest
 
