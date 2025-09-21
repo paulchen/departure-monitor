@@ -22,13 +22,7 @@ if [ "$DEPLOY_HASH" != "`sha256sum misc/deploy.sh`" ]; then
 fi
 
 docker pull nginx:latest || exit 1
-
-. ~/.nvm/nvm.sh || exit 1
-nvm install lts/jod || exit 1
-
-npm install || exit 1
-npm run build -- --configuration production --aot || exit 1
-
+docker pull node:22 || exit 1
 
 if [ "$1" == "--full-rebuild" ]; then
 	docker build . -t departure-monitor:latest --no-cache || exit 1
