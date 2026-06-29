@@ -59,7 +59,7 @@
                       <tr>
                         <th style="width: 15%" scope="col">Linie</th>
                         <th style="width: 68%" scope="col">Ziel</th>
-                        <th style="width: 17%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden" colspan="2" scope="col">Minuten</th>
+                        <th style="width: 17%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden" colspan="3" scope="col">Minuten</th>
                       </tr>
                     }
                   </ng-template>
@@ -68,7 +68,14 @@
                       <td>{{departure.line}}</td>
                       <td style="width: 100%;">{{departure.towards}}</td>
                       <td style="border-right: none; text-align: center; padding-right: 0;">
-                        <div style="width: 2em;">
+                        <div style="width: 1em;">
+                          @if (departure.cooling) {
+                            <div>❄️</div>
+                          }
+                        </div>
+                      </td>
+                      <td style="border-left: none; border-right: none; text-align: center; padding-left: 0; padding-right: 0;">
+                        <div style="width: 1em;">
                           @if (departure.folding_ramp) {
                             <div>_</div>
                           }
