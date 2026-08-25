@@ -6,15 +6,15 @@ import {Platform} from '../platform';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LocalStorageService} from "../local-storage.service";
 import {Disruptions, TrafficInfo} from '../traffic-info';
-import {Button} from 'primeng/button';
+import {Button} from '@openng/optimus-ui/button';
 import {FormsModule} from '@angular/forms';
-import {Tag} from 'primeng/tag';
-import {Inplace} from 'primeng/inplace';
+import {Tag} from '@openng/optimus-ui/tag';
+import {Inplace} from '@openng/optimus-ui/inplace';
 
-import {ProgressSpinner} from 'primeng/progressspinner';
-import {TableModule} from 'primeng/table';
-import {Message} from 'primeng/message';
-import {ToggleSwitchModule} from 'primeng/toggleswitch';
+import {ProgressSpinner} from '@openng/optimus-ui/progressspinner';
+import {TableModule} from '@openng/optimus-ui/table';
+import {Message} from '@openng/optimus-ui/message';
+import {ToggleSwitchModule} from '@openng/optimus-ui/toggleswitch';
 
 @Component({
   selector: 'app-monitor',

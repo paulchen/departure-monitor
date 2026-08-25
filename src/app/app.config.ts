@@ -2,11 +2,11 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
-import {providePrimeNG} from 'primeng/config';
-import Aura from '@primeuix/themes/aura';
+import {provideOptimus} from '@openng/optimus-ui/config';
+import Aura from '@openng/optimus-ui-themes/aura';
 import {provideHttpClient} from '@angular/common/http';
 import {routes} from "./app.routes";
-import {definePreset} from "@primeuix/themes";
+import {definePreset} from "@openng/optimus-ui-themes";
 
 const CustomTheme = definePreset(Aura, {
   semantic: {
@@ -31,7 +31,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimationsAsync(),
-    providePrimeNG({
+    provideOptimus({
       theme: {
         preset: CustomTheme
       }

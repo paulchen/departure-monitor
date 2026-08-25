@@ -4,8 +4,8 @@ import {Station, StationData} from '../main/station';
 import {DataService} from '../data.service';
 import { DecimalPipe, NgStyle, ViewportScroller } from '@angular/common';
 import {SearchComponent} from '../search/search.component';
-import {TableModule} from 'primeng/table';
-import {ProgressSpinner} from 'primeng/progressspinner';
+import {TableModule} from '@openng/optimus-ui/table';
+import {ProgressSpinner} from '@openng/optimus-ui/progressspinner';
 
 @Component({
   selector: 'app-vicinity',

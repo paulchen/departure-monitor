@@ -3,12 +3,12 @@ import { Router} from '@angular/router';
 import {Station, StationData} from '../main/station';
 import {DataService} from '../data.service';
 import {LocalStorageService} from "../local-storage.service";
-import {AutoComplete} from 'primeng/autocomplete';
+import {AutoComplete} from '@openng/optimus-ui/autocomplete';
 import { NgStyle } from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {Button} from 'primeng/button';
-import {Checkbox} from 'primeng/checkbox';
-import {ProgressSpinner} from 'primeng/progressspinner';
+import {Button} from '@openng/optimus-ui/button';
+import {Checkbox} from '@openng/optimus-ui/checkbox';
+import {ProgressSpinner} from '@openng/optimus-ui/progressspinner';
 
 @Component({
   selector: 'app-search',
