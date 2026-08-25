@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {SearchComponent} from '../search/search.component';
 
 @Component({
@@ -7,6 +7,7 @@ import {SearchComponent} from '../search/search.component';
   imports: [
     SearchComponent
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./main.component.css']
 })
 export class MainComponent {

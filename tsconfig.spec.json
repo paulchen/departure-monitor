@@ -13,5 +13,16 @@
   "include": [
     "src/**/*.spec.ts",
     "src/**/*.d.ts"
-  ]
+  ],
+  /* TODO
+  "angularCompilerOptions": {
+    "extendedDiagnostics": {
+      "checks": {
+        "nullishCoalescingNotNullable": "suppress",
+        "optionalChainNotNullable": "suppress"
+      }
+    },
+    "strictTemplates": false
+  }
+  */
 }

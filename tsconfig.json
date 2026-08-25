@@ -4,8 +4,8 @@
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
+    "esModuleInterop": true,
     "declaration": false,
-    "downlevelIteration": true,
     "experimentalDecorators": true,
     "module": "esnext",
     "moduleResolution": "bundler",
@@ -18,7 +18,11 @@
       "es2018",
       "ES2020.Promise",
       "dom"
-    ]
+    ],
+    "noImplicitAny": false, // TODO get rid of this
+    "strictPropertyInitialization": false, // TODO get rid of this
+    "strictNullChecks": false, // TODO get rid of this
+    "ignoreDeprecations": "6.0"
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

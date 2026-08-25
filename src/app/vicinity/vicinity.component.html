@@ -5,7 +5,7 @@
     <h2>Stationen in der Umgebung</h2>
     @if (nearStations.length) {
       <div>
-        <p-table [value]="nearStations" selectionMode="single" (onRowSelect)="selectStation($event.data)" responsiveLayout="scroll">
+        <p-table [value]="nearStations" selectionMode="single" (onRowSelect)="selectStation($event)" responsiveLayout="scroll">
           <ng-template pTemplate="header">
             <tr>
               <th scope="col">Name</th>

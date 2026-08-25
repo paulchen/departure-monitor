@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import { RblService } from '../rbl.service';
 import { Departure } from '../departure';
 import {StationDetails} from '../station-details';
@@ -29,6 +29,7 @@ import {ToggleSwitchModule} from '@openng/optimus-ui/toggleswitch';
     TableModule,
     Message
 ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./monitor.component.css']
 })
 export class MonitorComponent implements OnInit {

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Station, StationData} from '../main/station';
 import {DataService} from '../data.service';
@@ -17,6 +17,7 @@ import {ProgressSpinner} from '@openng/optimus-ui/progressspinner';
     DecimalPipe,
     ProgressSpinner
 ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./vicinity.component.css']
 })
 export class VicinityComponent implements OnInit {
@@ -156,7 +157,8 @@ export class VicinityComponent implements OnInit {
     return 0;
   }
 
-  selectStation(event: Station) {
-    this.router.navigate(['/station', event.id, event.name]).then(() => { /* empty */ });
+  selectStation(event: any) {
+    let station = event.data as Station;
+    this.router.navigate(['/station', station.id, station.name]).then(() => { /* empty */ });
   }
 }

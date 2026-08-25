@@ -1,7 +1,6 @@
 (function(window) {
-  window['env'] = window['env'] || {};
-
-  // Environment variables
-  window['env']['apiUrl'] = '${API_URL}';
-  window['env']['localStoragePrefix'] = '${LOCAL_STORAGE_PREFIX}';
-})(this);
+  window.env = {
+    apiUrl: '${API_URL}',
+    localStoragePrefix: '${LOCAL_STORAGE_PREFIX}',
+  };
+})(window);
