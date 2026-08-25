@@ -20,7 +20,7 @@ RUN apt-get update && \
 
 COPY ./misc/docker-entrypoint.sh /opt
 COPY ./misc/nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=node /opt/app/dist/departure-monitor /usr/share/nginx/html
+COPY --from=node /opt/app/dist/departure-monitor/browser /usr/share/nginx/html
 
 RUN chown -R myuser /usr/share/nginx/html/assets /usr/share/nginx/html/index.html /opt/docker-entrypoint.sh
 
